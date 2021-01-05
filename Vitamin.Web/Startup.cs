@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Text;
+using Vitamin.Authentication;
+using Vitamin.Web.Configuration;
 
 namespace Vitamin.Web
 {
@@ -26,11 +28,14 @@ namespace Vitamin.Web
         //依赖注入 定义应用使用的服务
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthenticaton(_configuration);
+         
             services.AddMvc(options =>
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
-        .AddViewLocalization()
-        .AddDataAnnotationsLocalization();
-
+                      options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
+                      .AddViewLocalization()
+                      .AddDataAnnotationsLocalization();
+           
+            services.AddVitaminServices();
         }
 
         // 中间件
@@ -57,7 +62,7 @@ namespace Vitamin.Web
             app.UseRouting();
             //身法验证
             app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Vitamin.Authentication\Vitamin.Authentication.csproj" />
     <ProjectReference Include="..\Vitamin.Core\Vitamin.Core.csproj" />
   </ItemGroup>
 
