@@ -57,7 +57,7 @@ namespace Vitamin.Web
             app.UseRouting();
             //身法验证
             app.UseAuthentication();
-          //  app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Win32;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -21,8 +22,13 @@ namespace Vitamin.Core
             {
                 try
                 {
-                    //var currentVersion=Registry.
-
+                    var currentVersion = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+                    var name = currentVersion.GetValue("ProductName", "Microsoft Windows NT");
+                    var ubr = currentVersion.GetValue("UBR", string.Empty).ToString();
+                    if (!string.IsNullOrWhiteSpace(ubr))
+                    {
+                        return $"{name} {osVer.Version.Major}.{osVer.Version.Minor}.{osVer.Version.Build}.{ubr}";
+                    }
                 }
                 catch 
                 {
