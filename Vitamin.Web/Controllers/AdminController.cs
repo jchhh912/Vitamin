@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using Vitamin.Authentication;
 using Vitamin.Core;
 using Vitamin.Web.Models;
 
@@ -19,21 +20,49 @@ namespace Vitamin.Web.Controllers
     [Route("admin")]
     public class AdminController : Controller
     {
+        private readonly AuthenticationSettings _authenticationSettings;
         private readonly UserAccountService _userAccountService;
         private readonly ILogger<AdminController> _logger;
         public AdminController(ILogger<AdminController> logger,
-            UserAccountService userAccountService)
+            UserAccountService userAccountService,
+            IOptions<AuthenticationSettings> authSettings)
         {
+            _authenticationSettings = authSettings.Value;
             _userAccountService = userAccountService;
             _logger = logger;
         }
         [Route("")]
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            return RedirectToAction("Index");
+            if (_authenticationSettings.Provider == AuthenticationProvider.AzureAD)
+            {
+       
+            }
+
+            return RedirectToAction("Manage", "Post");
         }
 
         [HttpGet("signin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SignIn()
+        {
+            switch (_authenticationSettings.Provider)
+            {
+                case AuthenticationProvider.AzureAD:
+                    break;
+                case AuthenticationProvider.Local:
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    break;
+                case AuthenticationProvider.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return View();
+        }
+
+        [HttpPost("signin")]
         [AllowAnonymous]
         public async Task<IActionResult> SignIn(SignInViewModel model)
         {
@@ -46,9 +75,9 @@ namespace Vitamin.Web.Controllers
                     {
                         var claims = new List<Claim>
                         {
-                            new (ClaimTypes.Name,model.Username),
-                            new (ClaimTypes.Role,"Administrator"),
-                            new ("uid",uid.ToString())
+                            new (ClaimTypes.Name, model.Username),
+                            new (ClaimTypes.Role, "Administrator"),
+                            new ("uid", uid.ToString())
                         };
                         var ci = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var p = new ClaimsPrincipal(ci);
@@ -60,12 +89,12 @@ namespace Vitamin.Web.Controllers
                         var successMessage = $@"Authentication success for local account ""{model.Username}""";
 
                         _logger.LogInformation(successMessage);
-
                         return RedirectToAction("Index");
                     }
                     ModelState.AddModelError(string.Empty, "Invalid Login Attempt.");
                     return View(model);
                 }
+
                 var failMessage = $@"Authentication failed for local account ""{model.Username}""";
 
                 _logger.LogWarning(failMessage);
@@ -75,12 +104,82 @@ namespace Vitamin.Web.Controllers
             }
             catch (Exception e)
             {
-
                 _logger.LogWarning($@"Authentication failed for local account ""{model.Username}""");
 
                 ModelState.AddModelError(string.Empty, e.Message);
                 return View(model);
             }
         }
+
+        //[HttpGet("signin")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> SignIn()
+        //{
+        //    switch (_authenticationSettings.Provider)
+        //    {
+        //        case AuthenticationProvider.AzureAD:
+        //            var redirectUrl = Url.Action(nameof(AdminController.Index), "Home");
+        //            return Content("No AuthenticationProvider");
+        //        case AuthenticationProvider.Local:
+        //            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        //            break;
+        //        case AuthenticationProvider.None:
+        //            Response.StatusCode = StatusCodes.Status501NotImplemented;
+        //            return Content("No AuthenticationProvider is set, please check system settings.");
+        //        default:
+        //            throw new ArgumentOutOfRangeException();
+        //    }
+
+        //    return View();
+        //}
+        //[HttpGet("signin")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> SignIn(SignInViewModel model)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var uid = await _userAccountService.ValidateAsync(model.Username, model.Password);
+        //            if (uid != Guid.Empty)
+        //            {
+        //                var claims = new List<Claim>
+        //                {
+        //                    new (ClaimTypes.Name,model.Username),
+        //                    new (ClaimTypes.Role,"Administrator"),
+        //                    new ("uid",uid.ToString())
+        //                };
+        //                var ci = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        //                var p = new ClaimsPrincipal(ci);
+
+        //                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, p);
+        //                await _userAccountService.LogSuccessLoginAsync(uid,
+        //                    HttpContext.Connection.RemoteIpAddress?.ToString());
+
+        //                var successMessage = $@"Authentication success for local account ""{model.Username}""";
+
+        //                _logger.LogInformation(successMessage);
+
+        //                return RedirectToAction("Index");
+        //            }
+        //            ModelState.AddModelError(string.Empty, "Invalid Login Attempt.");
+        //            return View(model);
+        //        }
+        //        var failMessage = $@"Authentication failed for local account ""{model.Username}""";
+
+        //        _logger.LogWarning(failMessage);
+        //        Response.StatusCode = StatusCodes.Status400BadRequest;
+        //        ModelState.AddModelError(string.Empty, "Bad Request.");
+        //        return View(model);
+        //    }
+        //    catch (Exception e)
+        //    {
+
+        //        _logger.LogWarning($@"Authentication failed for local account ""{model.Username}""");
+
+        //        ModelState.AddModelError(string.Empty, e.Message);
+        //        return View(model);
+        //    }
+        //}
     }
 }

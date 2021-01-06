@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Text;
 using Vitamin.Authentication;
 using Vitamin.Web.Configuration;
 
@@ -18,24 +18,25 @@ namespace Vitamin.Web
         private ILogger<Startup> _logger;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
-
         public Startup(IConfiguration configuration,IWebHostEnvironment env) 
         {
             _configuration = configuration;
-            _environment = env; ;
+            _environment = env;
         }
 
         //依赖注入 定义应用使用的服务
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
             services.AddAuthenticaton(_configuration);
-         
             services.AddMvc(options =>
-                      options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
-                      .AddViewLocalization()
-                      .AddDataAnnotationsLocalization();
-           
+                            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
+                    .AddViewLocalization()
+                    .AddDataAnnotationsLocalization();
+
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddVitaminServices();
+            services.AddDataStorage(_configuration);
         }
 
         // 中间件
@@ -43,7 +44,7 @@ namespace Vitamin.Web
             IApplicationBuilder app,
             IWebHostEnvironment env)
         {
-
+           // app.UseMiddleware<FirstRunMiddleware>();
             if (env.IsDevelopment())
             {
 
@@ -54,7 +55,7 @@ namespace Vitamin.Web
                 app.UseStatusCodePages();
                 app.UseExceptionHandler("/error");
                 //Https
-                app.UseHttpsRedirection();
+                //app.UseHttpsRedirection();
                 app.UseHsts();
             }
             app.UseStaticFiles();
