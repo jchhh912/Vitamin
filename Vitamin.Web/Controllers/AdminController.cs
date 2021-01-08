@@ -60,8 +60,8 @@ namespace Vitamin.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignIn(SignInViewModel model)
         {
-            //try
-            //{
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     var uid = await _userAccountService.ValidateAsync(model.Username, model.Password);
@@ -95,14 +95,14 @@ namespace Vitamin.Web.Controllers
                 Response.StatusCode = StatusCodes.Status400BadRequest;
                 ModelState.AddModelError(string.Empty, "Bad Request.");
                 return View(model);
-            //}
-            //catch (Exception e)
-            //{
-            //    _logger.LogWarning($@"Authentication failed for local account ""{model.Username}""");
+            }
+            catch (Exception e)
+            {
+                _logger.LogWarning($@"Authentication failed for local account ""{model.Username}""");
 
-            //    ModelState.AddModelError(string.Empty, e.Message);
-            //    return View(model);
-            //}
+                ModelState.AddModelError(string.Empty, e.Message);
+                return View(model);
+            }
         }
         [AllowAnonymous]
         [HttpGet("accessdenied")]
