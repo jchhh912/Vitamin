@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vitamin.Web", "Vitamin.Web\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vitamin.Core", "Vitamin.Core\Vitamin.Core.csproj", "{367658C3-5982-453D-8DC7-098641A151E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{6F7051CE-C3F6-4CF9-A11B-88E211A2A16A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{6F7051CE-C3F6-4CF9-A11B-88E211A2A16A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vitamin.Data", "Vitamin.Data\Vitamin.Data.csproj", "{B8A0F2C2-AA6C-4BED-BD7E-64843C5A2D8C}"
 EndProject
