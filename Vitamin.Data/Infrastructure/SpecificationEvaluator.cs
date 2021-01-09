@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Vitamin.Data.Infrastructure
 {
+    //规范 --不适应
     public class SpecificationEvaluator<T> where T : class
     {
         public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> specification)

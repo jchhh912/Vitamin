@@ -3,6 +3,9 @@ using Vitamin.Data.Configurations;
 
 namespace Vitamin.Data
 {
+    /// <summary>
+    /// 连接上下文
+    /// </summary>
     public class VitaminDbContext : DbContext
     {
         public VitaminDbContext()

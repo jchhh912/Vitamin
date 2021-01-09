@@ -40,6 +40,7 @@ namespace Vitamin.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignIn()
         {
+            //多种登录方式 目前只使用本地登录
             switch (_authenticationSettings.Provider)
             {
                 case AuthenticationProvider.AzureAD:
@@ -55,7 +56,11 @@ namespace Vitamin.Web.Controllers
 
             return View();
         }
-
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("signin")]
         [AllowAnonymous]
         public async Task<IActionResult> SignIn(SignInViewModel model)
@@ -104,6 +109,10 @@ namespace Vitamin.Web.Controllers
                 return View(model);
             }
         }
+        /// <summary>
+        /// 403 拒绝访问后跳转至登录页
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("accessdenied")]
         public IActionResult AccessDenied()

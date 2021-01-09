@@ -27,15 +27,17 @@ namespace Vitamin.Web
         //依赖注入 定义应用使用的服务
         public void ConfigureServices(IServiceCollection services)
         {
+            //将appsettings.json中的配置绑定到xxx的实例，并完成依赖注入。
             services.AddOptions();
+            //验证方式
             services.AddAuthenticaton(_configuration);
             services.AddMvc(options =>
                             options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
                     .AddViewLocalization()
                     .AddDataAnnotationsLocalization();
-
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            //批量注入服务
             services.AddVitaminServices();
+            //数据连接
             services.AddDataStorage(_configuration);
         }
 
@@ -45,6 +47,7 @@ namespace Vitamin.Web
             IWebHostEnvironment env)
         {
            // app.UseMiddleware<FirstRunMiddleware>();
+           //生产环境
             if (env.IsDevelopment())
             {
 
@@ -54,12 +57,11 @@ namespace Vitamin.Web
             {
                 app.UseStatusCodePages();
                 app.UseExceptionHandler("/error");
-                //Https
-                //app.UseHttpsRedirection();
                 app.UseHsts();
             }
+            //使用静态文件
             app.UseStaticFiles();
-
+            //路由
             app.UseRouting();
             //身法验证
             app.UseAuthentication();

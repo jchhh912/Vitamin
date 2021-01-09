@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Vitamin.Data.Model
 {
+    /// <summary>
+    /// 用户模型
+    /// </summary>
     public class Account
     {
         public Guid Id { get; set; }

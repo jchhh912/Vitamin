@@ -15,6 +15,11 @@ namespace Vitamin.Web.Configuration
 {
     public static class ServiceCollectionExtension
     {
+        /// <summary>
+        /// 连接数据库
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
         public static void AddDataStorage(this IServiceCollection services, IConfiguration configuration)
         {
             var connStr = configuration.GetConnectionString(Constants.DbConnectionName);
@@ -31,6 +36,10 @@ namespace Vitamin.Web.Configuration
                             null);
                     }));
         }
+        /// <summary>
+        /// 批量注入服务
+        /// </summary>
+        /// <param name="services"></param>
         public static void AddVitaminServices(this IServiceCollection services)
         {
             var asm = Assembly.GetAssembly(typeof(VitaminService));

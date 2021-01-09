@@ -9,10 +9,15 @@ namespace Vitamin.Core
 
     public class Utils
     {
-        //获取程序版本信息 
+        /// <summary>
+        ///  获取程序版本信息 
+        /// </summary>
         public static string AppVersion =>
            Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-
+        /// <summary>
+        /// 尝试获取电脑信息
+        /// </summary>
+        /// <returns></returns>
         public static string TryGetFullOSVersion() 
         {
             //获取平台

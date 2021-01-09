@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Vitamin.Data.Infrastructure
 {
+    /// <summary>
+    /// 通用方法
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class DbContextRepository<T> : IRepository<T> where T : class
     {
         protected readonly VitaminDbContext DbContext;

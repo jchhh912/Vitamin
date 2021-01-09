@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Vitamin.Data.Infrastructure
 {
+    /// <summary>
+    /// 通用方法接口
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IRepository<T> //  where T: class
     {
         T Get(object key);
