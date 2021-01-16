@@ -31,9 +31,9 @@ namespace Vitamin.Web.Controllers
             _logger = logger;
         }
         [Route("")]
-        public  IActionResult Index()
+        public IActionResult Index()
         {
-            return Content("Hello World");
+            return Content("ssssssss");
         }
 
         [HttpGet("signin")]
@@ -72,6 +72,7 @@ namespace Vitamin.Web.Controllers
                     var uid = await _userAccountService.ValidateAsync(model.Username, model.Password);
                     if (uid != Guid.Empty)
                     {
+                        //身份令牌
                         var claims = new List<Claim>
                         {
                             new (ClaimTypes.Name, model.Username),

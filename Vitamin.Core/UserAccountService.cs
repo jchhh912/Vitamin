@@ -59,8 +59,14 @@ namespace Vitamin.Core
             }
 
             var account = await _accountRepo.GetAsync(p => p.Username == username);
+            if (account==null)
+            {
+                throw new ArgumentNullException(nameof(username), "Authentication failed for local account");
+            }
             var valid = account.PasswordHash == HashPassword(inputPassword.Trim());
-            return valid ? account.Id : Guid.Empty;
+                return valid ? account.Id : Guid.Empty;
+
+            
         }
         /// <summary>
         ///  获取登录成功ip
