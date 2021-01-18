@@ -1,3 +1,10 @@
 [
-
+  {
+    "outputFileName": "wwwroot/css/vitamin-bundle.css",
+    "inputFiles": [
+      "wwwroot/css/lib/bootstrap.min.css",
+      "wwwroot/css/src/app-admin-bundle.css",
+      "wwwroot/css/src/vitamin-base.css"
+    ]
+  }
 ]

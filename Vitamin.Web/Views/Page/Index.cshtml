@@ -1,0 +1,9 @@
+﻿
+@section head{
+    @if (!string.IsNullOrWhiteSpace(Model.CSS))
+    {
+<style>
+            @Html.Raw(Model.CSS)
+</style>
+}
+}

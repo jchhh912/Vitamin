@@ -1,0 +1,118 @@
+﻿@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment WebHostEnvironment
+@inject IOptions<AuthenticationSettings> AuthOptions
+
+@using Vitamin.Authentication
+@{ var currentController = ViewContext.RouteData?.Values["controller"]?.ToString();
+                var currentAction = ViewContext.RouteData?.Values["action"]?.ToString(); }
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Admin
+        <environment exclude="Production">
+            (@WebHostEnvironment.EnvironmentName)
+        </environment>
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="keywords" content="text1" />
+    <link rel="start" title="text2" href="~/" />
+
+    <link href="~/css/Vitamin-css-bundle.css" rel="stylesheet" />
+    <link href="~/css/vitamin-admin-bundle.css" rel="stylesheet" />
+    <script src="~/js/admin-bundle.js"></script>
+    <script src="~/js/app-bundle.js"></script>
+    @*<link rel="alternate" type="application/rss+xml" title="@BlogConfig.FeedSettings.RssTitle" href="~/rss" />*@
+    @*<link type="application/opensearchdescription+xml" rel="search" title="@BlogConfig.GeneralSettings.SiteTitle" href="~/opensearch" /*@>
+    @*<partial name="_Favicons" />*@
+
+    @*<link href="~/css/theme/@BlogConfig.GeneralSettings.ThemeFileName" rel="stylesheet" asp-append-version="true" />*@
+    @await RenderSectionAsync("head", false)
+</head>
+<body class="admin-body">
+    <nav class="admin-navbar navbar fixed-top navbar-expand-lg navbar-dark bg-accent2">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Admin">text3</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index" target="_blank">
+                        <span class="icon-home"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Settings" asp-action="General">
+                        <span class="icon-cog"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Admin" asp-action="About">
+                        <span class="icon-list"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Admin" asp-action="SignOut" title="Sign Out">
+                        <span class="icon-enter"></span>
+                    </a>
+                </li>
+            </ul>
+
+            <span class="navbar-text">
+                <img src="" alt="text66" class="rounded-circle admin-nav-head-pic mr-1" />
+                @User.Identity.Name
+            </span>
+        </div>
+    </nav>
+    <div class="d-flex admin-body-wrapper">
+        <aside class="admin-nav">
+            <section class="admin-nav-section mt-4 mb-3">
+                <div class="list-group list-group-flush">
+                    <a asp-controller="PostManage" asp-action="Index" class="list-group-item list-group-item-action @(currentController == "PostManage" ? "active" : null)">
+                        <span class="icon-file-text2"></span>
+                       Posts
+                    </a>
+                    <a asp-controller="Admin" asp-action="Category" class="list-group-item list-group-item-action @(currentAction == "Category" ? "active" : null)">
+                        <span class="icon-folder"></span>
+                        Categories
+                    </a>
+                    <a asp-controller="Admin" asp-action="Comments" class="list-group-item list-group-item-action @(currentAction == "Comments" ? "active" : null)">
+                        <span class="icon-bubbles3"></span>
+                      Comments
+                    </a>
+                    <a asp-controller="Admin" asp-action="Tags" class="list-group-item list-group-item-action @(currentAction == "Tags" ? "active" : null)">
+                        <span class="icon-price-tag"></span>
+                        Tags
+                    </a>
+                    <a asp-controller="Admin" asp-action="Page" class="list-group-item list-group-item-action @(currentController == "Page" || currentAction == "Page" ? "active" : null)">
+                        <span class="icon-file-empty"></span>
+                      Pages
+                    </a>
+                    <a asp-controller="Admin" asp-action="Pingback" class="list-group-item list-group-item-action @(currentAction == "Pingback" ? "active" : null)">
+                        <span class="icon-earth"></span>
+                        Pingbacks
+                    </a>
+                    <a asp-controller="Admin" asp-action="Menu" class="list-group-item list-group-item-action @(currentAction == "Menu" ? "active" : null)">
+                        <span class="icon-list"></span>
+                       Menus
+                    </a>
+                    @if (AuthOptions.Value.Provider == AuthenticationProvider.Local)
+                    {
+        <a asp-controller="Settings" asp-action="AccountSettings" class="list-group-item list-group-item-action @(currentController == "Settings" && currentAction == "AccountSettings" ? "active" : null)">
+            <span class="icon-user"></span>
+            Account
+        </a>}
+                </div>
+            </section>
+        </aside>
+        <div class="admin-main pt-4 pr-3 pl-3">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    @await RenderSectionAsync("scripts", false)
+</body>
+</html>

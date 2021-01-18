@@ -2,165 +2,93 @@
 @model SignInViewModel
 @{ Layout = null; }
 
-<!DOCTYPE html>
-<html>
+<html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete">
 <head>
-    <title>
-        Admin Sign In
-    </title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    @*<link href="http://139.224.106.142/css/mooglade-css-bundle.min.css" rel="stylesheet" asp-append-version="true" />
-        <environment exclude="Development">
-            <script src="http://139.224.106.142/js/dist/app-js-bundle.min.js" asp-append-version="true"></script>
-        </environment>*@
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link type="image/svg" href="~/img/bk.svg" />
-    <style>
-        html,
-body {
-  height: 100%;
-}
-
-body {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
-}
-
-.form-signin {
-  width: 100%;
-  max-width: 420px;
-  padding: 15px;
-  margin: auto;
-}
-
-.form-label-group {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-.form-label-group > input,
-.form-label-group > label {
-  height: 3.125rem;
-  padding: .75rem;
-}
-
-.form-label-group > label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  margin-bottom: 0; /* Override default `<label>` margin */
-  line-height: 1.5;
-  color: #495057;
-  pointer-events: none;
-  cursor: text; /* Match the input under the label */
-  border: 1px solid transparent;
-  border-radius: .25rem;
-  transition: all .1s ease-in-out;
-}
-
-.form-label-group input::-webkit-input-placeholder {
-  color: transparent;
-}
-
-.form-label-group input:-ms-input-placeholder {
-  color: transparent;
-}
-
-.form-label-group input::-ms-input-placeholder {
-  color: transparent;
-}
-
-.form-label-group input::-moz-placeholder {
-  color: transparent;
-}
-
-.form-label-group input::placeholder {
-  color: transparent;
-}
-
-.form-label-group input:not(:placeholder-shown) {
-  padding-top: 1.25rem;
-  padding-bottom: .25rem;
-}
-
-.form-label-group input:not(:placeholder-shown) ~ label {
-  padding-top: .25rem;
-  padding-bottom: .25rem;
-  font-size: 12px;
-  color: #777;
-}
-
-
-    </style>
+    <title>Admin Sign In</title><!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Sign In">
+    <link rel="shortcut icon" href="favicon.ico" asp-append-version="true"><!-- FontAwesome JS-->
+    <script src="~/js/lib/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <link href="~/css/vitamin-bundle.css" rel="stylesheet" asp-append-version="true" />
+    @*<script defer="" src="assets/plugins/fontawesome/js/all.min.js"></script>
+        <link id="theme-style" href="~/css/src/porta.css" rel="stylesheet" />*@
 </head>
-<body  style="background-image: url(/img/bk.svg)">
-    <form class="form-signin" method="post">
-        <div class="mb-4">
-            <img class="mb-4" src="" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
-            @*<p style="float:left">@Html.ValidationSummary() <div asp-validation-summary="All" class="text-danger"></div></p>*@
+<body class="app app-login p-0">
+    <div class="row g-0 app-auth-wrapper">
+        <div class="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
+            <div class="d-flex flex-column align-content-end">
+                <div class="app-auth-body mx-auto">
+                    <div class="app-auth-branding mb-4">
+                        <a class="app-logo" href="index.html">
+                            <img class="logo-icon mr-2" src="/img/app-logos.svg" alt="logo">
+                        </a>
+                    </div>
+                    <h2 class="auth-heading text-center mb-5">Log in to Vitamin</h2>
+                    <div class="auth-form-container text-left">
 
-        </div>
+                        <form class="auth-form login-form" method="post">
+                            <div class="mb-3">
+                                <input asp-for="Username" class="form-control" required placeholder="Username" />
 
-        <div class="form-label-group">
-
-            <input asp-for="Username" class="form-control" required />
-  
-        </div>
-
-        <div class="form-label-group">
-            
-            <input asp-for="Password" class="form-control" required />
-        </div>
-
-        <input type="submit" value="Sign In" class="w-100 btn btn-lg btn-primary btn-block" />
-      
-        <p class="mt-5 mb-3 text-muted text-center">©@Utils.AppVersion</p>
-    </form>
-
-
-</body>
-
-
-@*<body>
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-md-4">
-                <div class="card">
-                    <h6 class="card-header">Sign In</h6>
-                    <div class="card-body">
-                        <form method="post">
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="Username"></label>
-                                <input asp-for="Username" class="form-control" required />
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Password"></label>
-                                <input asp-for="Password" class="form-control" required />
+                            <!--//form-group-->
+                            <div class="password mb-3">
+                                <input asp-for="Password" class="form-control signin-password" placeholder="Password" required />
+
+                                <!--<div class="extra mt-3 row justify-content-between">
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="RememberPassword">
+                                        <label class="form-check-label" for="RememberPassword">Remember me </label>
+                                    </div>
+                                </div>-->
+                                <!--//col-6-->
+                                <!--<div class="col-6">
+                                    <div class="forgot-password text-left"><a href="reset-password.html">Forgot password?</a></div>
+                                </div>-->
+                                <!--//col-6-->
+                                <!--</div>-->
+                                <!--//extra-->
                             </div>
-                            <input type="submit" value="Sign In" class="btn btn-success float-right" />
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <!--//form-group-->
+                            <div class="text-center">
+                                <input type="submit" value="Sign In" class="btn app-btn-primary btn-block theme-btn mx-auto" />
+                            </div>
                         </form>
+
+                    </div>
+                    <!--//auth-form-container-->
+                </div>
+                <!--//auth-body-->
+                <footer class="app-auth-footer">
+                    <div class="container text-center py-3">
+                        <small class="copyright">
+                            @*@Html.Raw(Utils.FormatCopyright2Html(BlogConfig.GeneralSettings.Copyright)) <br />*@
+                            Vitamin @Utils.AppVersion
+                        </small>
+                    </div>
+                </footer>
+                <!--//app-auth-footer-->
+            </div>
+            <!--//flex-column-->
+        </div>
+        <!--//auth-main-col-->
+        <div class="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
+            <div class="auth-background-holder"></div>
+            <div class="auth-background-mask"></div>
+            <div class="auth-background-overlay p-3 p-lg-5">
+                <div class="d-flex flex-column align-content-end h-100">
+                    <div class="h-100"></div>
+                    <div class="overlay-content p-3 p-lg-4 rounded">
+                        <h5 class="mb-3 overlay-title">Welcome to Vitamin</h5><div>Developed by <a href="https://github.com/jchhh912">Chenghui Jiang</a>.</div>
                     </div>
                 </div>
-                <p class="text-muted mt-4 small text-center">
-                    Moonglade @Utils.AppVersion
-                </p>
-            </div>
-        </div>
+            </div><!--//auth-background-overlay-->
+        </div><!--//auth-background-col-->
     </div>
-</body>*@
-
-
-
-
+    <!--//row-->
+</body>
 </html>

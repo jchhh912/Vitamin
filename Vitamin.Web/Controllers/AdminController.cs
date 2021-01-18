@@ -33,7 +33,7 @@ namespace Vitamin.Web.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            return Content("ssssssss");
+            return View();
         }
 
         [HttpGet("signin")]
@@ -99,7 +99,7 @@ namespace Vitamin.Web.Controllers
 
                 _logger.LogWarning(failMessage);
                 Response.StatusCode = StatusCodes.Status400BadRequest;
-                ModelState.AddModelError(string.Empty, "Bad Request.");
+                ModelState.AddModelError(string.Empty, "登录失败,请确认账号密码.");
                 return View(model);
             }
             catch (Exception e)

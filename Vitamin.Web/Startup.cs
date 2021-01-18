@@ -35,6 +35,7 @@ namespace Vitamin.Web
                             options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
                     .AddViewLocalization()
                     .AddDataAnnotationsLocalization();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             //批量注入服务
             services.AddVitaminServices();
             //数据连接
