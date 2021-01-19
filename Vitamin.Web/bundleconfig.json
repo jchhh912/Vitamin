@@ -3,8 +3,17 @@
     "outputFileName": "wwwroot/css/vitamin-bundle.css",
     "inputFiles": [
       "wwwroot/css/lib/bootstrap.min.css",
-      "wwwroot/css/src/app-admin-bundle.css",
-      "wwwroot/css/src/vitamin-base.css"
+      "wwwroot/css/src/app-admin-bundle.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/vitamin-bundle.js",
+    "inputFiles": [
+      "wwwroot/js/src/popper.js",
+      "wwwroot/js/src/app.js",
+      "wwwroot/js/lib/bootstrap.bundle.min.js"
+
+
     ]
   }
 ]

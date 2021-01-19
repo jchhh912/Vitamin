@@ -1,16 +1,4 @@
 {
   "version": "1.0",
-  "defaultProvider": "unpkg",
-  "libraries": [
-    {
-      "library": "bootstrap@5.0.0-beta1",
-      "destination": "wwwroot/lib/bootstrap/",
-      "files": [
-        "dist/css/bootstrap.min.css",
-        "dist/css/bootstrap.min.css.map",
-        "dist/js/bootstrap.bundle.min.js",
-        "dist/js/bootstrap.bundle.min.js.map"
-      ]
-    }
-  ]
+  "defaultProvider": "unpkg"
 }
