@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vitamin.Data", "Vitamin.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vitamin.Authentication", "Vitamin.Authentication\Vitamin.Authentication.csproj", "{894B0C3E-E90B-4664-99FC-29ACACE1360D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitamin.Configuration", "Vitamin.Configuration\Vitamin.Configuration.csproj", "{FA93DCD8-3E37-49DA-A339-D6691BC61643}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitamin.Moled", "Vitamin.Moled\Vitamin.Moled.csproj", "{9D72DBD3-EB2C-4B2D-8F05-BA5312817CE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{894B0C3E-E90B-4664-99FC-29ACACE1360D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{894B0C3E-E90B-4664-99FC-29ACACE1360D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{894B0C3E-E90B-4664-99FC-29ACACE1360D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA93DCD8-3E37-49DA-A339-D6691BC61643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA93DCD8-3E37-49DA-A339-D6691BC61643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA93DCD8-3E37-49DA-A339-D6691BC61643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA93DCD8-3E37-49DA-A339-D6691BC61643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D72DBD3-EB2C-4B2D-8F05-BA5312817CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D72DBD3-EB2C-4B2D-8F05-BA5312817CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D72DBD3-EB2C-4B2D-8F05-BA5312817CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D72DBD3-EB2C-4B2D-8F05-BA5312817CE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +60,8 @@ Global
 		{367658C3-5982-453D-8DC7-098641A151E8} = {99690714-6589-44E0-9138-6A827DDF1214}
 		{B8A0F2C2-AA6C-4BED-BD7E-64843C5A2D8C} = {6F7051CE-C3F6-4CF9-A11B-88E211A2A16A}
 		{894B0C3E-E90B-4664-99FC-29ACACE1360D} = {99690714-6589-44E0-9138-6A827DDF1214}
+		{FA93DCD8-3E37-49DA-A339-D6691BC61643} = {6F7051CE-C3F6-4CF9-A11B-88E211A2A16A}
+		{9D72DBD3-EB2C-4B2D-8F05-BA5312817CE2} = {99690714-6589-44E0-9138-6A827DDF1214}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8ADBB04E-23F8-43F7-B867-E86B4E4107D6}

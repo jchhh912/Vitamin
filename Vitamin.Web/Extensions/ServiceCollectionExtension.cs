@@ -6,6 +6,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vitamin.Configuration;
+using Vitamin.Configuration.Infrastructure;
 using Vitamin.Core;
 using Vitamin.Data;
 using Vitamin.Data.Infrastructure;
@@ -15,6 +17,13 @@ namespace Vitamin.Web.Configuration
 {
     public static class ServiceCollectionExtension
     {
+        public static void AddVitaminConfiguration(this IServiceCollection services, IConfigurationSection appSettings)
+        {
+
+            services.AddOptions();
+            services.AddSingleton<IVitaminConfig, VitaminConfig>();
+        }
+
         /// <summary>
         /// 连接数据库
         /// </summary>

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vitamin.Data\Vitamin.Data.csproj" />
+    <ProjectReference Include="..\Vitamin.Moled\Vitamin.Moled.csproj" />
   </ItemGroup>
 
 </Project>

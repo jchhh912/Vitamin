@@ -21,7 +21,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vitamin.Authentication\Vitamin.Authentication.csproj" />
+    <ProjectReference Include="..\Vitamin.Configuration\Vitamin.Configuration.csproj" />
     <ProjectReference Include="..\Vitamin.Core\Vitamin.Core.csproj" />
+    <ProjectReference Include="..\Vitamin.Moled\Vitamin.Moled.csproj" />
   </ItemGroup>
 
   <ItemGroup>

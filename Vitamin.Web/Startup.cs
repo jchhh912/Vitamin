@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Vitamin.Authentication;
+using Vitamin.Moled.Settings;
 using Vitamin.Web.Configuration;
 
 namespace Vitamin.Web
@@ -16,17 +17,22 @@ namespace Vitamin.Web
     public class Startup
     {
         private ILogger<Startup> _logger;
+        private readonly IConfigurationSection _appSettings;
+
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
         public Startup(IConfiguration configuration,IWebHostEnvironment env) 
         {
             _configuration = configuration;
             _environment = env;
+            _appSettings = _configuration.GetSection(nameof(AppSettings));
         }
 
         //依赖注入 定义应用使用的服务
         public void ConfigureServices(IServiceCollection services)
         {
+            //添加网站配置
+            services.AddVitaminConfiguration(_appSettings);
             //将appsettings.json中的配置绑定到xxx的实例，并完成依赖注入。
             services.AddOptions();
             //验证方式
