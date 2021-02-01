@@ -110,6 +110,13 @@ namespace Vitamin.Web.Controllers
                 return View(model);
             }
         }
+
+        [HttpGet("signout")]
+        public async Task<IActionResult> Signout() 
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Admin");
+        }
         /// <summary>
         /// 403 拒绝访问后跳转至登录页
         /// </summary>

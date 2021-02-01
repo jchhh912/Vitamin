@@ -5,7 +5,7 @@ namespace Vitamin.Data.Configurations
 {
     internal class UserAccountConfiguration : IEntityTypeConfiguration<UserAccountEntity>
     {
-        //用户信息 通用
+        //更新用户信息 模型
         public void Configure(EntityTypeBuilder<UserAccountEntity> builder)
         {
             builder.Property(e => e.Id).ValueGeneratedNever();

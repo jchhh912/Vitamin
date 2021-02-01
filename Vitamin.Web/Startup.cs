@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Vitamin.Authentication;
+using Vitamin.Data.Model;
 using Vitamin.Moled.Settings;
 using Vitamin.Web.Configuration;
 
@@ -38,14 +39,11 @@ namespace Vitamin.Web
             //验证方式
             services.AddAuthenticaton(_configuration);
             services.AddMvc(options =>
-                            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
-                    .AddViewLocalization()
-                    .AddDataAnnotationsLocalization();
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+                            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             //批量注入服务
             services.AddVitaminServices();
             //数据连接
-            services.AddDataStorage(_configuration);
+            services.AddDataStorage(_configuration.GetConnectionString(Constants.DbConnectionName));
         }
 
         // 中间件

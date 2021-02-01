@@ -28,16 +28,14 @@ namespace Vitamin.Web.Configuration
         /// 连接数据库
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        public static void AddDataStorage(this IServiceCollection services, IConfiguration configuration)
+        /// <param name="ConnectionName"></param>
+        public static void AddDataStorage(this IServiceCollection services, string ConnectionName)
         {
-            var connStr = configuration.GetConnectionString(Constants.DbConnectionName);
-
-            services.AddTransient<IDbConnection>(c => new SqlConnection(connStr));
+            services.AddTransient<IDbConnection>(c => new SqlConnection(ConnectionName));
             services.AddScoped(typeof(IRepository<>), typeof(DbContextRepository<>));
             services.AddDbContext<VitaminDbContext>(options =>
                 options.UseLazyLoadingProxies()
-                    .UseSqlServer(connStr, sqlOptions =>
+                    .UseSqlServer(ConnectionName, sqlOptions =>
                     {
                         sqlOptions.EnableRetryOnFailure(
                             3,

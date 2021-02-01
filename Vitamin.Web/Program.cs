@@ -19,16 +19,7 @@ namespace Vitamin.Web
                        $"User Name: {Environment.UserName}";
             Trace.WriteLine(info);
             Console.WriteLine(info);
-
-            var host = CreateHostBuilder(args).Build();
-            //在程序启动时创建实例
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-                var logger = loggerFactory.CreateLogger<Program>();
-            }
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
