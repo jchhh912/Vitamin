@@ -1,13 +1,13 @@
 [
   {
-    "outputFileName": "wwwroot/css/vitamin-bundle.css",
+    "outputFileName": "wwwroot/css/vitamin-bundle.min.css",
     "inputFiles": [
       "wwwroot/css/lib/bootstrap.min.css",
       "wwwroot/css/src/app-admin-bundle.css"
     ]
   },
   {
-    "outputFileName": "wwwroot/js/vitamin-bundle.js",
+    "outputFileName": "wwwroot/js/vitamin-bundle.min.js",
     "inputFiles": [
       "wwwroot/js/src/popper.js",
       "wwwroot/js/src/app.js",

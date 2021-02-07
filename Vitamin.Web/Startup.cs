@@ -1,14 +1,12 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Vitamin.Authentication;
+using Vitamin.Data.Model;
 using Vitamin.Moled.Settings;
 using Vitamin.Web.Configuration;
 
@@ -16,9 +14,7 @@ namespace Vitamin.Web
 {
     public class Startup
     {
-        private ILogger<Startup> _logger;
         private readonly IConfigurationSection _appSettings;
-
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
         public Startup(IConfiguration configuration,IWebHostEnvironment env) 
@@ -33,43 +29,44 @@ namespace Vitamin.Web
         {
             //添加网站配置
             services.AddVitaminConfiguration(_appSettings);
-            //将appsettings.json中的配置绑定到xxx的实例，并完成依赖注入。
-            services.AddOptions();
-            //验证方式
-            services.AddAuthenticaton(_configuration);
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                             {
+                                 options.AccessDeniedPath = "/admin/accessdenied";
+                                 options.LoginPath = "/admin/signin";
+                                 options.LogoutPath = "/admin/signout";
+                             });
+
             services.AddMvc(options =>
-                            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
-                    .AddViewLocalization()
-                    .AddDataAnnotationsLocalization();
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+                            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             //批量注入服务
             services.AddVitaminServices();
             //数据连接
-            services.AddDataStorage(_configuration);
+            services.AddDataStorage(_configuration.GetConnectionString(Constants.DbConnectionName));
         }
 
         // 中间件
         public void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env)
+            IApplicationBuilder app)
         {
            // app.UseMiddleware<FirstRunMiddleware>();
            //生产环境
-            if (env.IsDevelopment())
+            if (_environment.IsDevelopment())
             {
-
                 app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseStatusCodePages();
                 app.UseExceptionHandler("/error");
+                app.UseHttpsRedirection();
                 app.UseHsts();
-            }
-            //使用静态文件
-            app.UseStaticFiles();
+            }    
             //路由
             app.UseRouting();
+            //使用静态文件
+            app.UseStaticFiles();
             //身法验证
             app.UseAuthentication();
             app.UseAuthorization();

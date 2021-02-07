@@ -9,9 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Vitamin.Configuration;
 using Vitamin.Configuration.Infrastructure;
 using Vitamin.Core;
+using Vitamin.Core.IService;
 using Vitamin.Data;
 using Vitamin.Data.Infrastructure;
-using Vitamin.Data.Model;
 
 namespace Vitamin.Web.Configuration
 {
@@ -28,16 +28,14 @@ namespace Vitamin.Web.Configuration
         /// 连接数据库
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        public static void AddDataStorage(this IServiceCollection services, IConfiguration configuration)
+        /// <param name="ConnectionName"></param>
+        public static void AddDataStorage(this IServiceCollection services, string ConnectionName)
         {
-            var connStr = configuration.GetConnectionString(Constants.DbConnectionName);
-
-            services.AddTransient<IDbConnection>(c => new SqlConnection(connStr));
+            services.AddTransient<IDbConnection>(c => new SqlConnection(ConnectionName));
             services.AddScoped(typeof(IRepository<>), typeof(DbContextRepository<>));
             services.AddDbContext<VitaminDbContext>(options =>
                 options.UseLazyLoadingProxies()
-                    .UseSqlServer(connStr, sqlOptions =>
+                    .UseSqlServer(ConnectionName, sqlOptions =>
                     {
                         sqlOptions.EnableRetryOnFailure(
                             3,
@@ -51,16 +49,20 @@ namespace Vitamin.Web.Configuration
         /// <param name="services"></param>
         public static void AddVitaminServices(this IServiceCollection services)
         {
-            var asm = Assembly.GetAssembly(typeof(VitaminService));
-            if (asm is not null)
+            Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
+            Assembly assemblyCore = asms.FirstOrDefault(p => p.FullName is not null && p.FullName.StartsWith("Vitamin.Core"));
+
+            if (assemblyCore is not null)
             {
-                var types = asm.GetTypes().Where(t => t.IsClass && t.IsPublic && t.Name.EndsWith("Service"));
+                var types = assemblyCore.GetTypes().Where(t => t.IsClass && t.IsPublic && t.Name.EndsWith("Service"));
                 foreach (var t in types)
                 {
-                    services.AddScoped(t, t);
+                    var i = assemblyCore.GetTypes().FirstOrDefault(x => x.IsInterface && x.IsPublic && x.Name == $"I{t.Name}");
+                    services.AddScoped(i ?? t, t);
                 }
-            } 
+            }
+            services.AddScoped<IUserAccountService, UserAccountService>();
+        }
 
         }
     }
-}

@@ -1,12 +1,10 @@
-﻿
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace Vitamin.Core
+namespace Vitamin.ToolKits
 {
-
     public class Utils
     {
         /// <summary>
@@ -18,7 +16,7 @@ namespace Vitamin.Core
         /// 尝试获取电脑信息
         /// </summary>
         /// <returns></returns>
-        public static string TryGetFullOSVersion() 
+        public static string TryGetFullOSVersion()
         {
             //获取平台
             var osVer = Environment.OSVersion;
@@ -35,7 +33,7 @@ namespace Vitamin.Core
                         return $"{name} {osVer.Version.Major}.{osVer.Version.Minor}.{osVer.Version.Build}.{ubr}";
                     }
                 }
-                catch 
+                catch
                 {
 
                     return osVer.VersionString;

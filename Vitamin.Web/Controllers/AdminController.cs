@@ -9,8 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Vitamin.Authentication;
-using Vitamin.Core;
+using Vitamin.Core.IService;
 using Vitamin.Web.Models;
 
 namespace Vitamin.Web.Controllers
@@ -19,14 +18,11 @@ namespace Vitamin.Web.Controllers
     [Route("admin")]
     public class AdminController : Controller
     {
-        private readonly AuthenticationSettings _authenticationSettings;
-        private readonly UserAccountService _userAccountService;
+        private readonly IUserAccountService _userAccountService;
         private readonly ILogger<AdminController> _logger;
         public AdminController(ILogger<AdminController> logger,
-            UserAccountService userAccountService,
-            IOptions<AuthenticationSettings> authSettings)
+            IUserAccountService userAccountService)
         {
-            _authenticationSettings = authSettings.Value;
             _userAccountService = userAccountService;
             _logger = logger;
         }
@@ -40,20 +36,7 @@ namespace Vitamin.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignIn()
         {
-            //多种登录方式 目前只使用本地登录
-            switch (_authenticationSettings.Provider)
-            {
-                case AuthenticationProvider.AzureAD:
-                    break;
-                case AuthenticationProvider.Local:
-                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                    break;
-                case AuthenticationProvider.None:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return View();
         }
         /// <summary>
@@ -72,7 +55,6 @@ namespace Vitamin.Web.Controllers
                     var uid = await _userAccountService.ValidateAsync(model.Username, model.Password);
                     if (uid != Guid.Empty)
                     {
-                        //身份令牌
                         var claims = new List<Claim>
                         {
                             new (ClaimTypes.Name, model.Username),
@@ -99,7 +81,7 @@ namespace Vitamin.Web.Controllers
 
                 _logger.LogWarning(failMessage);
                 Response.StatusCode = StatusCodes.Status400BadRequest;
-                ModelState.AddModelError(string.Empty, "登录失败,请确认账号密码.");
+                ModelState.AddModelError(string.Empty, "Bad Request.");
                 return View(model);
             }
             catch (Exception e)
@@ -109,6 +91,15 @@ namespace Vitamin.Web.Controllers
                 ModelState.AddModelError(string.Empty, e.Message);
                 return View(model);
             }
+        }
+
+
+        [HttpGet("signout")]
+        public async Task<IActionResult> Signout() 
+        {
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
         /// <summary>
         /// 403 拒绝访问后跳转至登录页

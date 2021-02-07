@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Vitamin.Core.IService;
 using Vitamin.Data;
 using Vitamin.Data.Infrastructure;
 using Vitamin.Data.Model;
@@ -12,7 +13,7 @@ namespace Vitamin.Core
     /// <summary>
     /// 用户操作
     /// </summary>
-    public class UserAccountService : VitaminService
+    public class UserAccountService : IUserAccountService
     {
         private readonly IRepository<UserAccountEntity> _accountRepo;
         public UserAccountService(IRepository<UserAccountEntity> accountRepo)

@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vitamin.Data\Vitamin.Data.csproj" />
-    <ProjectReference Include="..\Vitamin.Moled\Vitamin.Moled.csproj" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
