@@ -13,7 +13,7 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
     {
         //表名
         builder
-            .ToTable("IdentityUsers");
+            .ToTable("Users", "Identity");
         //属性规则 长度256
         builder
             .Property(u => u.ObjectId)
@@ -25,7 +25,7 @@ public class ApplicationRoleConfig : IEntityTypeConfiguration<ApplicationRole>
     public void Configure(EntityTypeBuilder<ApplicationRole> builder)
     {
         builder
-            .ToTable("IdentityRoles");
+            .ToTable("Roles", "Identity");
     }
 }
 public class ApplicationRoleClaimConfig : IEntityTypeConfiguration<ApplicationRoleClaim>
@@ -33,7 +33,7 @@ public class ApplicationRoleClaimConfig : IEntityTypeConfiguration<ApplicationRo
     public void Configure(EntityTypeBuilder<ApplicationRoleClaim> builder)
     {
         builder
-            .ToTable("IdentityRoleClaims");
+            .ToTable("RoleClaims", "Identity");
     }
 }
 public class IdentityUserRoleConfig : IEntityTypeConfiguration<IdentityUserRole<string>>
@@ -41,7 +41,7 @@ public class IdentityUserRoleConfig : IEntityTypeConfiguration<IdentityUserRole<
     public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
     {
         builder
-             .ToTable("IdentityUserRoles");
+             .ToTable("UserRoles", "Identity");
     }
 }
 public class IdentityUserClaimConfig : IEntityTypeConfiguration<IdentityUserClaim<string>>
@@ -49,7 +49,7 @@ public class IdentityUserClaimConfig : IEntityTypeConfiguration<IdentityUserClai
     public void Configure(EntityTypeBuilder<IdentityUserClaim<string>> builder)
     {
         builder
-            .ToTable("IdentityUserClaims");
+            .ToTable("UserClaims", "Identity");
     }
 }
 public class IdentityUserLoginConfig : IEntityTypeConfiguration<IdentityUserLogin<string>>
@@ -57,13 +57,13 @@ public class IdentityUserLoginConfig : IEntityTypeConfiguration<IdentityUserLogi
     public void Configure(EntityTypeBuilder<IdentityUserLogin<string>> builder)
     {
         builder
-            .ToTable("IdentityUserLogins");
+            .ToTable("UserLogins", "Identity");
     }
 }
 public class IdentityUserTokenConfig : IEntityTypeConfiguration<IdentityUserToken<string>>
 {
     public void Configure(EntityTypeBuilder<IdentityUserToken<string>> builder)
     {
-        builder.ToTable("IdentityUserTokens");
+        builder.ToTable("UserTokens", "Identity");
     }
 }

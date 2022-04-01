@@ -7,7 +7,7 @@ using Infrastructure.Presistence.Database;
 
 namespace Infrastructure.Presistence.Context;
 
-public class ApplicationDbContext: IdentityDbContext<ApplicationUser,IdentityRole<string>,string>
+public class ApplicationDbContext: IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>
 {
     public IDbConnection Connection => Database.GetDbConnection();
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options) 
