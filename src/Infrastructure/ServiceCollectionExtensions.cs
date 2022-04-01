@@ -1,4 +1,6 @@
-﻿using Infrastructure.Identity;
+﻿using Infrastructure.Common;
+using Infrastructure.Identity;
+using Infrastructure.Middleware;
 using Infrastructure.Presistence;
 using Infrastructure.Presistence.Context;
 using Infrastructure.Presistence.Database.Initializer;
@@ -14,7 +16,7 @@ public static class ServiceCollectionExtensions
 {
 
     /// <summary>
-    /// 添加基础设施
+    /// 注册基础服务
     /// </summary>
     /// <param name="services"></param>
     /// <param name="config"></param>
@@ -22,9 +24,25 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         return services
+                  .AddExceptionMiddleware()
                   .AddIdentity()
                   .AddHealthCheck()
-                  .AddPersistence(config);
+                  .AddPersistence(config)
+                  .AddServices();
+    }
+    /// <summary>
+    /// 调用基础服务
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="config"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config)
+    {
+        return builder
+                    .UseExceptionMiddleware()
+                    .UseAuthentication()
+                    .UseAuthorization();
+
     }
     public static IServiceCollection AddIdentity(
         this IServiceCollection services)
@@ -33,11 +51,11 @@ public static class ServiceCollectionExtensions
                     .AddIdentity<ApplicationUser, ApplicationRole>(option =>
                     {
                         option.Password.RequiredLength = 6;
-                        option.Password.RequireDigit = true;
-                        option.Password.RequireLowercase = true;
-                        option.Password.RequireNonAlphanumeric = true;
-                        option.Password.RequireUppercase = true;
-                        option.User.RequireUniqueEmail = true;
+                        option.Password.RequireDigit = false;
+                        option.Password.RequireLowercase = false;
+                        option.Password.RequireNonAlphanumeric = false;
+                        option.Password.RequireUppercase = false;
+                        option.User.RequireUniqueEmail = false;
                     })
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders().Services;

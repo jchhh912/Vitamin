@@ -14,11 +14,11 @@ builder.Host.UseSerilog((_, config) =>
     config.WriteTo.Console()
     .ReadFrom.Configuration(builder.Configuration);
 });
-
 builder.Services.AddControllers();
 
 var app = builder.Build();
 await app.Services.InitializeDatabasesAsync();
+app.UseInfrastructure(builder.Configuration);
 app.MapEndpoints();
 app.Run();
 
