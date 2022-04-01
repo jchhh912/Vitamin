@@ -1,11 +1,10 @@
-﻿
-using Infrastructure.Identity;
+﻿using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shared.Authorization;
 
-namespace Infrastructure.Presistence.Database;
+namespace Infrastructure.Presistence.Database.Seeder;
 
 
 internal class ApplicationDbSeeder
@@ -31,7 +30,7 @@ internal class ApplicationDbSeeder
             }
 
         }
-        if (await _userManager.Users.FirstOrDefaultAsync(u=>u.UserName==VitaminConstants.default_username) is not ApplicationUser adminUser)
+        if (await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == VitaminConstants.default_username) is not ApplicationUser adminUser)
         {
             adminUser = new ApplicationUser()
             {

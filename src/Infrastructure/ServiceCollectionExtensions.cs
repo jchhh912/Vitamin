@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common;
+﻿using Infrastructure.Auth;
+using Infrastructure.Common;
 using Infrastructure.Identity;
 using Infrastructure.Middleware;
 using Infrastructure.Presistence;
@@ -24,8 +25,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         return services
+                  .AddAuth(config)
                   .AddExceptionMiddleware()
-                  .AddIdentity()
                   .AddHealthCheck()
                   .AddPersistence(config)
                   .AddServices();
@@ -43,22 +44,6 @@ public static class ServiceCollectionExtensions
                     .UseAuthentication()
                     .UseAuthorization();
 
-    }
-    public static IServiceCollection AddIdentity(
-        this IServiceCollection services)
-    {
-        return services
-                    .AddIdentity<ApplicationUser, ApplicationRole>(option =>
-                    {
-                        option.Password.RequiredLength = 6;
-                        option.Password.RequireDigit = false;
-                        option.Password.RequireLowercase = false;
-                        option.Password.RequireNonAlphanumeric = false;
-                        option.Password.RequireUppercase = false;
-                        option.User.RequireUniqueEmail = false;
-                    })
-               .AddEntityFrameworkStores<ApplicationDbContext>()
-               .AddDefaultTokenProviders().Services;
     }
     public static async Task InitializeDatabasesAsync(this IServiceProvider services, CancellationToken cancellationToken = default)
     {

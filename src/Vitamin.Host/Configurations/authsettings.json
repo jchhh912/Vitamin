@@ -1,0 +1,12 @@
+{
+  "AuthSettings": {
+    "Provider": "Jwt",
+    "RequireConfirmedAccount": true,
+    "JwtSettings": {
+      "key": "EKPfoWSU2EqUz3kXSvcDVw!1!MAG1C!1!",
+      "Issuer": "Vitamin",
+      "tokenExpirationInMinutes": 60,
+      "refreshTokenExpirationInDays": 7
+    }
+  }
+  }

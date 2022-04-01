@@ -1,10 +1,9 @@
-﻿
-
-using Infrastructure.Presistence.Context;
+﻿using Infrastructure.Presistence.Context;
+using Infrastructure.Presistence.Database.Seeder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Presistence.Database;
+namespace Infrastructure.Presistence.Database.Initializer;
 
 
 internal class ApplicationDbInitializer
