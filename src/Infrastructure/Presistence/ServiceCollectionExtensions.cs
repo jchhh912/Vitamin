@@ -1,22 +1,19 @@
-﻿using Infrastructure.Presistence.Context;
+﻿using Application.Presistence;
+using Infrastructure.Presistence.Context;
 using Infrastructure.Presistence.Database;
 using Infrastructure.Presistence.Database.Initializer;
+using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Presistence;
 
 internal static class ServiceCollectionExtensions
 {
-    private static readonly Serilog.ILogger _logger = Log.ForContext(typeof(ServiceCollectionExtensions));
+    private static readonly ILogger _logger = Log.ForContext(typeof(ServiceCollectionExtensions));
     internal static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
     {
         // TODO: there must be a cleaner way to do IOptions validation...
@@ -40,7 +37,8 @@ internal static class ServiceCollectionExtensions
             .AddDbContext<ApplicationDbContext>(options => options.UseDatabase(dbProvider, rootConnectionString))
             .AddTransient<IDatabaseInitializer, DatabaseInitializer>()
             .AddTransient<ApplicationDbInitializer>()
-            .AddTransient<ApplicationDbSeeder>();
+            .AddTransient<ApplicationDbSeeder>()
+            .AddRepositories();
     }
     internal static DbContextOptionsBuilder UseDatabase(this DbContextOptionsBuilder builder, string dbProvider, string connectionString)
     {
@@ -53,6 +51,13 @@ internal static class ServiceCollectionExtensions
                                    .SchemaBehavior(MySqlSchemaBehavior.Ignore)),
             _ => throw new InvalidOperationException($"DB Provider {dbProvider} is not supported."),
         };
+    }
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        // Add Repositories
+        services.AddScoped(typeof(IRepository<>), typeof(ApplicationDbRepository<>));
+        services.AddScoped(typeof(IRepositoryWithEvents<>), typeof(EventAddingRepositoryDecorator<>));
+        return services;
     }
 }
 
