@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solution Items", "{4225A0A3-5D09-4417-858C-97114B2862A7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F4872BA3-457D-422E-94C0-CF9F928D1A93}"
@@ -26,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrators", "Migrators", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrators.MSSQL", "src\Migrators\Migrators.MSSQL\Migrators.MSSQL.csproj", "{DD21CC30-1D94-4FDC-9848-A92258C54ABC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Core\Domain\Domain.csproj", "{333FDD51-AC95-4024-B325-FAFB7293E8F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Core\Domain\Domain.csproj", "{333FDD51-AC95-4024-B325-FAFB7293E8F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Core\Application\Application\Application.csproj", "{E420E1EF-70DB-4F89-8B3A-FC5E49398E23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +63,10 @@ Global
 		{333FDD51-AC95-4024-B325-FAFB7293E8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{333FDD51-AC95-4024-B325-FAFB7293E8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{333FDD51-AC95-4024-B325-FAFB7293E8F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E420E1EF-70DB-4F89-8B3A-FC5E49398E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E420E1EF-70DB-4F89-8B3A-FC5E49398E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E420E1EF-70DB-4F89-8B3A-FC5E49398E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E420E1EF-70DB-4F89-8B3A-FC5E49398E23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +80,7 @@ Global
 		{18329235-4283-48FC-91C2-6E011103A0E1} = {D1BC6EE6-D565-4103-916F-7518477370AF}
 		{DD21CC30-1D94-4FDC-9848-A92258C54ABC} = {18329235-4283-48FC-91C2-6E011103A0E1}
 		{333FDD51-AC95-4024-B325-FAFB7293E8F7} = {F4872BA3-457D-422E-94C0-CF9F928D1A93}
+		{E420E1EF-70DB-4F89-8B3A-FC5E49398E23} = {F4872BA3-457D-422E-94C0-CF9F928D1A93}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FCDEF1A-8D1D-46C2-9223-3DAB42BFEB0F}

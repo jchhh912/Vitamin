@@ -3,7 +3,6 @@ using Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.AspNetCore.Identity;
-using Infrastructure.Presistence.Database;
 
 namespace Infrastructure.Presistence.Context;
 
