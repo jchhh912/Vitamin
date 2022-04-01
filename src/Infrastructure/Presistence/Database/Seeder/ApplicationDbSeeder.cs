@@ -31,12 +31,15 @@ internal class ApplicationDbSeeder
             }
 
         }
-        var adminUser = new ApplicationUser()
+        if (await _userManager.Users.FirstOrDefaultAsync(u=>u.UserName==VitaminConstants.default_username) is not ApplicationUser adminUser)
         {
-            UserName = VitaminConstants.default_username,
-            Email = VitaminConstants.default_email
-        };
-        await _userManager.CreateAsync(adminUser, VitaminConstants.defaul_password);
+            adminUser = new ApplicationUser()
+            {
+                UserName = VitaminConstants.default_username,
+                Email = VitaminConstants.default_email
+            };
+            await _userManager.CreateAsync(adminUser, VitaminConstants.defaul_password);
+        }
         if (!await _userManager.IsInRoleAsync(adminUser, VitaminRoles.Administrators))
         {
             _logger.LogInformation("Assigning Admin Role to Admin User.");
