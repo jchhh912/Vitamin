@@ -35,7 +35,8 @@ internal class ApplicationDbSeeder
             adminUser = new ApplicationUser()
             {
                 UserName = VitaminConstants.default_username,
-                Email = VitaminConstants.default_email
+                Email = VitaminConstants.default_email,
+                IsActive= true
             };
             await _userManager.CreateAsync(adminUser, VitaminConstants.defaul_password);
         }
