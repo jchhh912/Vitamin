@@ -96,7 +96,7 @@ public class TokenService:ITokenService
     /// 获取身份信息
     /// </summary>
     /// <returns></returns>
-    private IEnumerable<Claim> GetClaims(ApplicationUser user, string ipAddress) =>
+    private static IEnumerable<Claim> GetClaims(ApplicationUser user, string ipAddress) =>
        new List<Claim>
        {
             new(ClaimTypes.NameIdentifier, user.Id),
@@ -108,7 +108,7 @@ public class TokenService:ITokenService
     /// 生成刷新令牌
     /// </summary>
     /// <returns></returns>
-    private string GenerateRefreshToken()
+    private static string GenerateRefreshToken()
     {
         byte[] randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();

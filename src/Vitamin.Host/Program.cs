@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 await app.Services.InitializeDatabasesAsync();
-app.UseInfrastructure(builder.Configuration);
+app.UseInfrastructure();
 app.MapEndpoints();
 app.Run();
 

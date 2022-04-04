@@ -1,12 +1,9 @@
 ﻿using Infrastructure.Auth;
 using Infrastructure.Common;
-using Infrastructure.Identity;
 using Infrastructure.Middleware;
 using Infrastructure.Presistence;
-using Infrastructure.Presistence.Context;
 using Infrastructure.Presistence.Database.Initializer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +22,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         return services
+                  .AddSwaggerGen()
                   .AddAuth(config)
                   .AddExceptionMiddleware()
                   .AddHealthCheck()
@@ -34,9 +32,14 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// 注册中间件服务
     /// </summary>
-    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config)
+    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder)
     {
         return builder
+                    .UseSwagger()
+                    .UseSwaggerUI(c =>
+                    {
+                        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Vitamin API V1");
+                    })
                     .UseExceptionMiddleware()
                     .UseAuthentication()
                     .UseAuthorization();
