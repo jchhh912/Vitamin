@@ -5,8 +5,6 @@ internal static class ServiceCollectionExtensions
     /// <summary>
     /// 加载配置文件
     /// </summary>
-    /// <param name="host"></param>
-    /// <returns></returns>
     internal static ConfigureHostBuilder AddConfigurations(this ConfigureHostBuilder host)
     {
         host.ConfigureAppConfiguration((context, config) =>

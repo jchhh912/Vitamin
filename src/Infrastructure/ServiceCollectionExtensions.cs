@@ -32,19 +32,18 @@ public static class ServiceCollectionExtensions
                   .AddServices();
     }
     /// <summary>
-    /// 调用基础服务
+    /// 注册中间件服务
     /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="config"></param>
-    /// <returns></returns>
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config)
     {
         return builder
                     .UseExceptionMiddleware()
                     .UseAuthentication()
                     .UseAuthorization();
-
     }
+    /// <summary>
+    /// 初始化数据库
+    /// </summary>
     public static async Task InitializeDatabasesAsync(this IServiceProvider services, CancellationToken cancellationToken = default)
     {
         // Create a new scope to retrieve scoped services
@@ -53,6 +52,9 @@ public static class ServiceCollectionExtensions
         await scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>()
             .InitializeDatabasesAsync(cancellationToken);
     }
+    /// <summary>
+    /// 健康检查
+    /// </summary>
     private static IServiceCollection AddHealthCheck(this IServiceCollection services) =>
       services.AddHealthChecks().Services;
     /// <summary>

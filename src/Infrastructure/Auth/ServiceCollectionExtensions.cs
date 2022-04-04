@@ -24,7 +24,7 @@ internal static class ServiceCollectionExtensions
                     .AddJwtAuth(config);
     }
     /// <summary>
-    /// 添加支持JWT
+    /// JWT验证授权
     /// </summary>
     internal static IServiceCollection AddJwtAuth(this IServiceCollection services, IConfiguration config)
     {

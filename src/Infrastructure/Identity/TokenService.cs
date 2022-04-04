@@ -26,7 +26,10 @@ public class TokenService:ITokenService
         _userManager = userManager;
         _jwtSettings = jwtSettings.Value;
     }
-
+    /// <summary>
+    /// 获取Token
+    /// </summary>
+    /// <exception cref="UnauthorizedException"></exception>
     public async Task<TokenResponse> GetTokenAsync(TokenRequest request, string ipAddress, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(request.Email.Trim().Normalize());
@@ -44,10 +47,14 @@ public class TokenService:ITokenService
         }
         return await GenerateTokensAndUpdateUser(user, ipAddress);
     }
+    /// <summary>
+    /// 刷新Token更新
+    /// </summary>
     public async Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest request, string ipAddress)
     {
         var userPrincipal = GetPrincipalFromExpiredToken(request.Token);
-        var user = await _userManager.FindByEmailAsync(ClaimTypes.Email);
+        string? userEmail = userPrincipal.FindFirstValue(ClaimTypes.Email);
+        var user = await _userManager.FindByEmailAsync(userEmail);
         if (user is null)
         {
             throw new UnauthorizedException("auth.failed");
@@ -60,6 +67,7 @@ public class TokenService:ITokenService
 
         return await GenerateTokensAndUpdateUser(user, ipAddress);
     }
+
     #region JWT辅助方法
     /// <summary>
     /// 生成Token并且更新
