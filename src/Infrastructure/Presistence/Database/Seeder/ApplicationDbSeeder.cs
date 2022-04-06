@@ -18,6 +18,9 @@ internal class ApplicationDbSeeder
         _userManager = userManager;
         _logger = logger;
     }
+    /// <summary>
+    /// 生成种子数据
+    /// </summary>
     public async Task SeedDatabaseAsync()
     {
         foreach (string roleName in VitaminRoles.DefaultRoles)
