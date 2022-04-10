@@ -21,6 +21,7 @@ internal class ApplicationDbInitializer
     {
         if (_dbContext.Database.GetMigrations().Any())
         {
+            //异步获取待定的迁移项目
             if ((await _dbContext.Database.GetPendingMigrationsAsync(cancellationToken)).Any())
             {
                 _logger.LogInformation("Applying Migrations.");

@@ -10,7 +10,24 @@ namespace Migrators.MSSQL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
+                name: "Post");
+
+            migrationBuilder.EnsureSchema(
                 name: "Identity");
+
+            migrationBuilder.CreateTable(
+                name: "Categorys",
+                schema: "Post",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categorys", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Roles",
@@ -57,6 +74,40 @@ namespace Migrators.MSSQL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                schema: "Post",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    PostContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommentEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    CreateTimeUtc = table.Column<DateTime>(type: "datetime", nullable: false),
+                    PubDateUtc = table.Column<DateTime>(type: "datetime", nullable: true),
+                    LastModifiedUtc = table.Column<DateTime>(type: "datetime", nullable: true),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsOriginal = table.Column<bool>(type: "bit", nullable: false),
+                    OriginLink = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    HeroImageUrl = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    HashCheckSum = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Categorys_CategoryId",
+                        column: x => x.CategoryId,
+                        principalSchema: "Post",
+                        principalTable: "Categorys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,6 +229,32 @@ namespace Migrators.MSSQL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                schema: "Post",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tags_Posts_PostId",
+                        column: x => x.PostId,
+                        principalSchema: "Post",
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_CategoryId",
+                schema: "Post",
+                table: "Posts",
+                column: "CategoryId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 schema: "Identity",
@@ -191,6 +268,12 @@ namespace Migrators.MSSQL.Migrations
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_PostId",
+                schema: "Post",
+                table: "Tags",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
@@ -232,6 +315,10 @@ namespace Migrators.MSSQL.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
+                name: "Tags",
+                schema: "Post");
+
+            migrationBuilder.DropTable(
                 name: "UserClaims",
                 schema: "Identity");
 
@@ -248,12 +335,20 @@ namespace Migrators.MSSQL.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
+                name: "Posts",
+                schema: "Post");
+
+            migrationBuilder.DropTable(
                 name: "Roles",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "Users",
                 schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "Categorys",
+                schema: "Post");
         }
     }
 }

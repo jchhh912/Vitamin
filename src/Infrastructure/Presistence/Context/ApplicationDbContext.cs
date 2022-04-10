@@ -3,6 +3,7 @@ using Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.AspNetCore.Identity;
+using Domain.Blog;
 
 namespace Infrastructure.Presistence.Context;
 
@@ -13,6 +14,9 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, Applicatio
     {
     
     }
+    public DbSet<Post> Posts => Set<Post>();
+    public DbSet<Tags> Tags => Set<Tags>();
+    public DbSet<Categorys> Categorys => Set<Categorys>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
