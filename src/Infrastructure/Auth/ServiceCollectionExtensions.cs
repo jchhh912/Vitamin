@@ -100,7 +100,7 @@ internal static class ServiceCollectionExtensions
                         option.Password.RequireUppercase = false;
                         option.User.RequireUniqueEmail = false;
                     })
-               .AddEntityFrameworkStores<ApplicationDbContext>()
+               .AddEntityFrameworkStores<BaseDbContext>()
                .AddDefaultTokenProviders().Services;
     }
 }

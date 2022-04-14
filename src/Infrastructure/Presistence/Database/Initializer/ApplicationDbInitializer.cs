@@ -8,10 +8,10 @@ namespace Infrastructure.Presistence.Database.Initializer;
 
 internal class ApplicationDbInitializer
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly BaseDbContext _dbContext;
     private readonly ApplicationDbSeeder _dbSeeder;
     private readonly ILogger<ApplicationDbInitializer> _logger;
-    public ApplicationDbInitializer(ApplicationDbContext dbContext, ApplicationDbSeeder dbSeeder, ILogger<ApplicationDbInitializer> logger)
+    public ApplicationDbInitializer(BaseDbContext dbContext, ApplicationDbSeeder dbSeeder, ILogger<ApplicationDbInitializer> logger)
     {
         _dbContext = dbContext;
         _dbSeeder = dbSeeder;

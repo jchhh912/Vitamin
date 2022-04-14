@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Migrators.MSSQL.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220410124146_Inital")]
-    partial class Inital
+    [DbContext(typeof(BaseDbContext))]
+    [Migration("20220414082329_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,12 @@ namespace Migrators.MSSQL.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Categorys", "Post");
                 });
@@ -54,20 +59,13 @@ namespace Migrators.MSSQL.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("CommentEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("CreateTimeUtc")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("HashCheckSum")
-                        .HasColumnType("int");
-
                     b.Property<string>("HeroImageUrl")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -84,7 +82,6 @@ namespace Migrators.MSSQL.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("OriginLink")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -107,8 +104,6 @@ namespace Migrators.MSSQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Posts", "Post");
                 });
 
@@ -122,7 +117,7 @@ namespace Migrators.MSSQL.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<Guid?>("PostId")
+                    b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -355,22 +350,22 @@ namespace Migrators.MSSQL.Migrations
                     b.ToTable("UserTokens", "Identity");
                 });
 
-            modelBuilder.Entity("Domain.Blog.Post", b =>
+            modelBuilder.Entity("Domain.Blog.Categorys", b =>
                 {
-                    b.HasOne("Domain.Blog.Categorys", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("Domain.Blog.Post", null)
+                        .WithMany("Category")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Domain.Blog.Tags", b =>
                 {
                     b.HasOne("Domain.Blog.Post", null)
                         .WithMany("Tags")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.ApplicationRoleClaim", b =>
@@ -426,6 +421,8 @@ namespace Migrators.MSSQL.Migrations
 
             modelBuilder.Entity("Domain.Blog.Post", b =>
                 {
+                    b.Navigation("Category");
+
                     b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618

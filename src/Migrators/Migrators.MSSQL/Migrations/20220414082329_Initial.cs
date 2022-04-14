@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Migrators.MSSQL.Migrations
 {
-    public partial class Inital : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,17 +16,28 @@ namespace Migrators.MSSQL.Migrations
                 name: "Identity");
 
             migrationBuilder.CreateTable(
-                name: "Categorys",
+                name: "Posts",
                 schema: "Post",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    PostContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommentEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    CreateTimeUtc = table.Column<DateTime>(type: "datetime", nullable: false),
+                    PubDateUtc = table.Column<DateTime>(type: "datetime", nullable: true),
+                    LastModifiedUtc = table.Column<DateTime>(type: "datetime", nullable: true),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsOriginal = table.Column<bool>(type: "bit", nullable: false),
+                    OriginLink = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    HeroImageUrl = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categorys", x => x.Id);
+                    table.PrimaryKey("PK_Posts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,35 +88,44 @@ namespace Migrators.MSSQL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
+                name: "Categorys",
                 schema: "Post",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Author = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    PostContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CommentEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    CreateTimeUtc = table.Column<DateTime>(type: "datetime", nullable: false),
-                    PubDateUtc = table.Column<DateTime>(type: "datetime", nullable: true),
-                    LastModifiedUtc = table.Column<DateTime>(type: "datetime", nullable: true),
-                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    IsOriginal = table.Column<bool>(type: "bit", nullable: false),
-                    OriginLink = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    HeroImageUrl = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    HashCheckSum = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.PrimaryKey("PK_Categorys", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_Categorys_CategoryId",
-                        column: x => x.CategoryId,
+                        name: "FK_Categorys_Posts_PostId",
+                        column: x => x.PostId,
                         principalSchema: "Post",
-                        principalTable: "Categorys",
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                schema: "Post",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tags_Posts_PostId",
+                        column: x => x.PostId,
+                        principalSchema: "Post",
+                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -229,31 +249,11 @@ namespace Migrators.MSSQL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Tags",
-                schema: "Post",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tags_Posts_PostId",
-                        column: x => x.PostId,
-                        principalSchema: "Post",
-                        principalTable: "Posts",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_CategoryId",
+                name: "IX_Categorys_PostId",
                 schema: "Post",
-                table: "Posts",
-                column: "CategoryId");
+                table: "Categorys",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
@@ -311,6 +311,10 @@ namespace Migrators.MSSQL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Categorys",
+                schema: "Post");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims",
                 schema: "Identity");
 
@@ -345,10 +349,6 @@ namespace Migrators.MSSQL.Migrations
             migrationBuilder.DropTable(
                 name: "Users",
                 schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "Categorys",
-                schema: "Post");
         }
     }
 }

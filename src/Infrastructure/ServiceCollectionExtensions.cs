@@ -1,12 +1,15 @@
-﻿using Infrastructure.Auth;
+﻿using Application.Blog;
+using Infrastructure.Auth;
 using Infrastructure.Common;
 using Infrastructure.Middleware;
 using Infrastructure.Presistence;
 using Infrastructure.Presistence.Database.Initializer;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Infrastructure;
 
@@ -26,6 +29,7 @@ public static class ServiceCollectionExtensions
                   .AddAuth(config)
                   .AddExceptionMiddleware()
                   .AddHealthCheck()
+                  .AddMediatR(Assembly.GetExecutingAssembly())
                   .AddPersistence(config)
                   .AddServices();
     }

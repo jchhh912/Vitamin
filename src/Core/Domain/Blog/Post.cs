@@ -1,5 +1,4 @@
 ﻿
-
 namespace Domain.Blog;
 
 public class Post
@@ -52,15 +51,11 @@ public class Post
     /// <summary>
     /// 原创链接
     /// </summary>
-    public string OriginLink { get; set; }
+    public string? OriginLink { get; set; }
     /// <summary>
     /// 文章封面图片
     /// </summary>
-    public string HeroImageUrl { get; set; }
-    /// <summary>
-    /// hash检查
-    /// </summary>
-    public int HashCheckSum { get; set; }
+    public string? HeroImageUrl { get; set; }
     /// <summary>
     /// 标签列表
     /// </summary>
@@ -68,7 +63,7 @@ public class Post
     /// <summary>
     /// 分类
     /// </summary>
-    public virtual Categorys Category { get; set; }
+    public virtual ICollection<Categorys> Category { get; set; }
 
 }
 

@@ -35,7 +35,7 @@ internal static class ServiceCollectionExtensions
 
         return services
             .Configure<DatabaseSettings>(config.GetSection(nameof(DatabaseSettings)))
-            .AddDbContext<ApplicationDbContext>(options => options.UseDatabase(dbProvider, rootConnectionString))
+            .AddDbContext<BaseDbContext>(options => options.UseDatabase(dbProvider, rootConnectionString))
             .AddTransient<IDatabaseInitializer, DatabaseInitializer>()
             .AddTransient<ApplicationDbInitializer>()
             .AddTransient<ApplicationDbSeeder>()
@@ -57,7 +57,7 @@ internal static class ServiceCollectionExtensions
     {
         // Add Repositories
         services.AddScoped(typeof(IRepository<>), typeof(ApplicationDbRepository<>));
-        services.AddScoped(typeof(IRepositoryWithEvents<>), typeof(EventAddingRepositoryDecorator<>));
+        services.AddScoped(typeof(ISpecification<>), typeof(BaseSpecification<>));
         return services;
     }
 }

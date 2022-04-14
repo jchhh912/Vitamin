@@ -7,12 +7,12 @@ using Domain.Blog;
 
 namespace Infrastructure.Presistence.Context;
 
-public class ApplicationDbContext: IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>
+public class BaseDbContext:IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>
 {
     public IDbConnection Connection => Database.GetDbConnection();
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options) 
+    public BaseDbContext(DbContextOptions options) 
+        :base(options) 
     {
-    
     }
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<Tags> Tags => Set<Tags>();
@@ -26,15 +26,6 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, Applicatio
     {
         // TODO: We want this only for development probably... maybe better make it configurable in logger.json config?
         optionsBuilder.EnableSensitiveDataLogging();
-
-        // If you want to see the sql queries that efcore executes:
-
-        // Uncomment the next line to see them in the output window of visual studio
-        // optionsBuilder.LogTo(m => Debug.WriteLine(m), LogLevel.Information);
-
-        // Or uncomment the next line if you want to see them in the console
-        // optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
-
     }
 
 }

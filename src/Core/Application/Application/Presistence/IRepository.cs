@@ -1,34 +1,60 @@
 ﻿
-using Ardalis.Specification;
+
+using Application.Common.Interfaces;
+using System.Linq.Expressions;
 
 namespace Application.Presistence;
 
-// The Repository for the Application Db
-// I(Read)RepositoryBase<T> is from Ardalis.Specification
-
-/// <summary>
-/// The regular read/write repository for an aggregate root.
-/// </summary>
-public interface IRepository<T> : IRepositoryBase<T>
-    where T : class
+public interface IRepository<T>: ITransientService
 {
-}
 
-/// <summary>
-/// The read-only repository for an aggregate root.
-/// </summary>
-public interface IReadRepository<T> : IReadRepositoryBase<T>
-    where T : class
-{
-}
+    ValueTask<T> GetAsync(object key);
 
-/// <summary>
-/// A special (read/write) repository for an aggregate root,
-/// that also adds EntityCreated, EntityUpdated or EntityDeleted
-/// events to the DomainEvents of the entities before adding,
-/// updating or deleting them.
-/// </summary>
-public interface IRepositoryWithEvents<T> : IRepositoryBase<T>
-    where T : class
-{
+    Task<T> GetAsync(Expression<Func<T, bool>> condition);
+
+    Task<IReadOnlyList<T>> GetAsync();
+
+    Task<IReadOnlyList<T>> GetAsync(ISpecification<T> spec);
+
+    IQueryable<T> GetAsQueryable();
+
+    TResult SelectFirstOrDefault<TResult>(
+        ISpecification<T> spec,
+        Expression<Func<T, TResult>> selector);
+
+    Task DeleteAsync(T entity);
+
+    Task DeleteAsync(IEnumerable<T> entities);
+
+    Task DeleteAsync(object key);
+
+    int Count(ISpecification<T> spec = null);
+
+    int Count(Expression<Func<T, bool>> condition);
+
+    Task<int> CountAsync(ISpecification<T> spec);
+
+    bool Any(ISpecification<T> spec);
+
+    bool Any(Expression<Func<T, bool>> condition = null);
+
+    Task<IReadOnlyList<TResult>> SelectAsync<TResult>(
+        Expression<Func<T, TResult>> selector);
+
+    Task<IReadOnlyList<TResult>> SelectAsync<TResult>(
+        ISpecification<T> spec,
+        Expression<Func<T, TResult>> selector);
+
+    Task<TResult> SelectFirstOrDefaultAsync<TResult>(
+        ISpecification<T> spec,
+        Expression<Func<T, TResult>> selector);
+
+    Task<IReadOnlyList<TResult>> SelectAsync<TGroup, TResult>(
+        Expression<Func<T, TGroup>> groupExpression,
+        Expression<Func<IGrouping<TGroup, T>, TResult>> selector,
+        ISpecification<T> spec = null);
+
+    Task<T> AddAsync(T entity);
+
+    Task UpdateAsync(T entity);
 }

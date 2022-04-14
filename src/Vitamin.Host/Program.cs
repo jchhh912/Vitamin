@@ -1,3 +1,4 @@
+using Application;
 using Infrastructure;
 using Infrastructure.Common;
 using Serilog;
@@ -15,7 +16,7 @@ builder.Host.UseSerilog((_, config) =>
     .ReadFrom.Configuration(builder.Configuration);
 });
 builder.Services.AddControllers();
-
+builder.Services.AddApplication();
 var app = builder.Build();
 await app.Services.InitializeDatabasesAsync();
 app.UseInfrastructure();
