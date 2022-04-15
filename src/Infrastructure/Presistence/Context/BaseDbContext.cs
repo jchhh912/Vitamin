@@ -3,20 +3,15 @@ using Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.AspNetCore.Identity;
-using Domain.Blog;
 
 namespace Infrastructure.Presistence.Context;
-
-public class BaseDbContext:IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>
+public abstract class BaseDbContext: IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>
 {
     public IDbConnection Connection => Database.GetDbConnection();
     public BaseDbContext(DbContextOptions options) 
         :base(options) 
     {
     }
-    public DbSet<Post> Posts => Set<Post>();
-    public DbSet<Tags> Tags => Set<Tags>();
-    public DbSet<Categorys> Categorys => Set<Categorys>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

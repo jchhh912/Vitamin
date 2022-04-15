@@ -10,7 +10,7 @@ namespace Application.Presistence;
 /// 规约模式
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public interface ISpecification<T> : ITransientService
+public interface ISpecification<T>
 {
     /// <summary>
     /// 根据您的实体添加表达式的地方

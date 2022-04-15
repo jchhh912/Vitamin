@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Migrators.MSSQL.Migrations
 {
-    [DbContext(typeof(BaseDbContext))]
-    [Migration("20220414082329_Initial")]
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20220415070004_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

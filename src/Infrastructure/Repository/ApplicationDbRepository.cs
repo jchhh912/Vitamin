@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Repository;
 
-// Inherited from Ardalis.Specification's RepositoryBase<T>
 public class ApplicationDbRepository<T> : IRepository<T> where T : class
 {
-    private readonly BaseDbContext _dbContext;
-    public ApplicationDbRepository(BaseDbContext dbContext) => _dbContext = dbContext;
+    private readonly ApplicationDbContext _dbContext;
+    
+    public ApplicationDbRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
     public Task<T> GetAsync(Expression<Func<T, bool>> condition)
     {
         return _dbContext.Set<T>().FirstOrDefaultAsync(condition);

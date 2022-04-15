@@ -35,7 +35,7 @@ internal static class ServiceCollectionExtensions
 
         return services
             .Configure<DatabaseSettings>(config.GetSection(nameof(DatabaseSettings)))
-            .AddDbContext<BaseDbContext>(options => options.UseDatabase(dbProvider, rootConnectionString))
+            .AddDbContext<ApplicationDbContext>(options => options.UseDatabase(dbProvider, rootConnectionString))
             .AddTransient<IDatabaseInitializer, DatabaseInitializer>()
             .AddTransient<ApplicationDbInitializer>()
             .AddTransient<ApplicationDbSeeder>()

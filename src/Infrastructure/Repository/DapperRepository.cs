@@ -8,8 +8,8 @@ namespace Infrastructure.Repository;
 
 public class DapperRepository : IDapperRepository
 {
-    private readonly BaseDbContext _dbContext;
-    public DapperRepository(BaseDbContext dbContext) => _dbContext = dbContext;
+    private readonly ApplicationDbContext _dbContext;
+    public DapperRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public async Task<IReadOnlyList<T>> QueryAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default) where T : class
     {
