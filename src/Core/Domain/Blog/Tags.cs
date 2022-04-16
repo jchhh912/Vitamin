@@ -5,11 +5,12 @@ namespace Domain.Blog;
 
 public class Tags
 {
-    public Tags(string displayName) 
+    public Tags(Guid postId, string displayName)
     {
-            DisplayName = displayName;
+        DisplayName = displayName;
+        PostId = postId;
     }
-    public int Id { get; set; }
+    public int TagId { get; set; }
     public Guid PostId { get; set; }
 
     /// <summary>

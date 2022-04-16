@@ -32,7 +32,9 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Guid>
             IsPublished = request.Payload.IsPublished,
             IsOriginal = request.Payload.IsOriginal,
             OriginLink = request.Payload.OriginLink,
-            HeroImageUrl = request.Payload.HeroImageUrl
+            HeroImageUrl = request.Payload.HeroImageUrl,
+            Category=request.Payload.Categorys,
+            Tags=request.Payload.Tags
         };
         await _postRepo.AddAsync(post);
         return post.Id;
