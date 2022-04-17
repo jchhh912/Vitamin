@@ -1,5 +1,6 @@
 ﻿
 
+using Domain.Blog;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.Blog.Request;
@@ -31,9 +32,6 @@ public class CreatePostRequest
     [Display(Name = "Publish Now")]
     public bool IsPublished { get; set; }
 
-    [Display(Name = "Tags")]
-    [MaxLength(128)]
-    public List<string> Tags { get; set; }
 
     [Display(Name = "Original")]
     public bool IsOriginal { get; set; }
@@ -45,5 +43,10 @@ public class CreatePostRequest
     [Display(Name = "Hero Image")]
     [DataType(DataType.Url)]
     public string HeroImageUrl { get; set; }
-
+    [Display(Name = "Categorys")]
+    [MaxLength(128)]
+    public List<Categorys> Categorys { get; set; }
+    [Display(Name = "Tags")]
+    [MaxLength(128)]
+    public List<Tags> Tags { get; set; }
 }

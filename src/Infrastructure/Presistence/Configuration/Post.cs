@@ -31,7 +31,8 @@ public class CategorysConfig : IEntityTypeConfiguration<Categorys>
     {
         builder
         .ToTable("Categorys", "Post");
-        builder.Property(e => e.Id).ValueGeneratedNever();
+        builder.HasKey(e => e.CategoryId);
+        builder.Property(e => e.CategoryId).ValueGeneratedNever();
         builder.Property(e => e.DisplayName).HasMaxLength(64);
         builder.Property(e => e.Note).HasMaxLength(128);
     }
@@ -44,7 +45,8 @@ public class TagsConfig : IEntityTypeConfiguration<Tags>
     {
         builder
            .ToTable("Tags", "Post");
-        builder.Property(e => e.Id).ValueGeneratedNever();
+        builder.HasKey(e => e.TagId);
+        builder.Property(e => e.TagId).ValueGeneratedNever();
         builder.Property(e => e.DisplayName).HasMaxLength(64);
     }
 }

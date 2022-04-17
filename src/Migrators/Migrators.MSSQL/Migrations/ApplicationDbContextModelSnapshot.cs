@@ -24,8 +24,8 @@ namespace Migrators.MSSQL.Migrations
 
             modelBuilder.Entity("Domain.Blog.Categorys", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -40,7 +40,7 @@ namespace Migrators.MSSQL.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId");
 
                     b.HasIndex("PostId");
 
@@ -107,7 +107,7 @@ namespace Migrators.MSSQL.Migrations
 
             modelBuilder.Entity("Domain.Blog.Tags", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TagId")
                         .HasColumnType("int");
 
                     b.Property<string>("DisplayName")
@@ -118,7 +118,7 @@ namespace Migrators.MSSQL.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("TagId");
 
                     b.HasIndex("PostId");
 

@@ -92,14 +92,14 @@ namespace Migrators.MSSQL.Migrations
                 schema: "Post",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Note = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categorys", x => x.Id);
+                    table.PrimaryKey("PK_Categorys", x => x.CategoryId);
                     table.ForeignKey(
                         name: "FK_Categorys_Posts_PostId",
                         column: x => x.PostId,
@@ -114,13 +114,13 @@ namespace Migrators.MSSQL.Migrations
                 schema: "Post",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    TagId = table.Column<int>(type: "int", nullable: false),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.PrimaryKey("PK_Tags", x => x.TagId);
                     table.ForeignKey(
                         name: "FK_Tags_Posts_PostId",
                         column: x => x.PostId,
