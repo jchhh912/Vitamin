@@ -11,8 +11,14 @@ public class PostController : BaseApiController
 {
     [HttpPost]
     [AllowAnonymous]
-    public Task<Guid> CreateAsync(CreatePostCommand request) 
+    public async Task<Guid> CreateAsync(CreatePostCommand request) 
     {
-        return Mediator.Send(request);
+        return await Mediator.Send(request);
+    }
+    [HttpDelete]
+    [AllowAnonymous]
+    public async Task<Guid> DeleteAsync(DeletePostCommand request)
+    {
+        return await Mediator.Send(request);
     }
 }
