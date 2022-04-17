@@ -1,12 +1,14 @@
 ﻿using Application.Blog;
 using Application.Blog.Request;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Vitamin.Host.Controllers.Blog
 {
-    [Route("api/[controller]")]
+    [AllowAnonymous]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CategroyController : BaseApiController
     {
@@ -26,7 +28,7 @@ namespace Vitamin.Host.Controllers.Blog
         {
             return Mediator.Send(request);
         }
-        [HttpPost] 
+        [HttpPost]
         public Task<List<CreateCategoryRequest>> GetAsync(GetCategoryCommand<CreateCategoryRequest> request)
         {
             return Mediator.Send(request);
