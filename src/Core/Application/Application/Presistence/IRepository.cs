@@ -3,16 +3,15 @@ using System.Linq.Expressions;
 
 namespace Application.Presistence;
 
-public interface IRepository<T>
+public interface IRepository<T> where T : class
 {
 
     ValueTask<T> GetAsync(object key);
 
     Task<T> GetAsync(Expression<Func<T, bool>> condition);
-
     Task<IReadOnlyList<T>> GetAsync();
-
-    Task<IReadOnlyList<T>> GetAsync(ISpecification<T> spec);
+    Task<T> GetAsync(ISpecification<T> spec);
+    Task<IReadOnlyList<T>> GetListAsync(ISpecification<T> spec);
 
     IQueryable<T> GetAsQueryable();
 

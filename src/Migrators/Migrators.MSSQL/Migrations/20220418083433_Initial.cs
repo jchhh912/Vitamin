@@ -92,7 +92,8 @@ namespace Migrators.MSSQL.Migrations
                 schema: "Post",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Note = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
@@ -114,7 +115,8 @@ namespace Migrators.MSSQL.Migrations
                 schema: "Post",
                 columns: table => new
                 {
-                    TagId = table.Column<int>(type: "int", nullable: false),
+                    TagId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },

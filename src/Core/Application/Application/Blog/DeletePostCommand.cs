@@ -1,4 +1,5 @@
 ﻿
+using Application.Blog.Spc;
 using Application.Common.Exceptions;
 using Application.Presistence;
 using Domain.Blog;
@@ -14,8 +15,8 @@ public class DeletePostRequestHandler : IRequestHandler<DeletePostCommand, Guid>
     public DeletePostRequestHandler(IRepository<Post> postRepo)=>_postRepo=postRepo;
     public async Task<Guid> Handle(DeletePostCommand request, CancellationToken cancellationToken)
     {
-        var post=await _postRepo.GetAsync(request.Id);
-        if (post == null) throw new ConflictException("post.cannotbedeleted") ;
+        var post = await _postRepo.GetAsync(new PostSpec(request.Id));;
+        if (post == null) throw new InvalidOperationException($"Post {request.Id} is not found.") ;
         if (request.SoftDelete)
         {
             post.IsDeleted = true;

@@ -1,8 +1,4 @@
-﻿
-
-using Application.Presistence;
-
-namespace Infrastructure.Repository;
+﻿namespace Application.Presistence;
 
 public class SpecificationEvaluator<T> where T : class
 {

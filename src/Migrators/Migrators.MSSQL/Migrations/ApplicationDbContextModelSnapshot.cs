@@ -25,7 +25,10 @@ namespace Migrators.MSSQL.Migrations
             modelBuilder.Entity("Domain.Blog.Categorys", b =>
                 {
                     b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -108,7 +111,10 @@ namespace Migrators.MSSQL.Migrations
             modelBuilder.Entity("Domain.Blog.Tags", b =>
                 {
                     b.Property<int>("TagId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagId"), 1L, 1);
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -351,7 +357,7 @@ namespace Migrators.MSSQL.Migrations
             modelBuilder.Entity("Domain.Blog.Categorys", b =>
                 {
                     b.HasOne("Domain.Blog.Post", null)
-                        .WithMany("Category")
+                        .WithMany("PostCategory")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -419,7 +425,7 @@ namespace Migrators.MSSQL.Migrations
 
             modelBuilder.Entity("Domain.Blog.Post", b =>
                 {
-                    b.Navigation("Category");
+                    b.Navigation("PostCategory");
 
                     b.Navigation("Tags");
                 });

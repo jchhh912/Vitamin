@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Domain.Blog;
@@ -10,9 +12,10 @@ public class Tags
         DisplayName = displayName;
         PostId = postId;
     }
+    [JsonIgnore]
     public int TagId { get; set; }
+    [JsonIgnore]
     public Guid PostId { get; set; }
-
     /// <summary>
     /// 名称
     /// </summary>

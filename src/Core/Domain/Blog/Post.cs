@@ -63,7 +63,7 @@ public class Post
     /// <summary>
     /// 分类
     /// </summary>
-    public virtual ICollection<Categorys> Category { get; set; }
+    public virtual ICollection<Categorys> PostCategory { get; set; }
 
 }
 

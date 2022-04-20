@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Blog.Request;
 
-public class CreatePostRequest
+public class CreateOrEditPostRequest
 {
+
     [Required]
     [MaxLength(128)]
     public string Title { get; set; }

@@ -5,7 +5,7 @@ using System.Data;
 using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Presistence.Context;
-public abstract class BaseDbContext: IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>
+public abstract class BaseDbContext:IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>
 {
     public IDbConnection Connection => Database.GetDbConnection();
     public BaseDbContext(DbContextOptions options) 

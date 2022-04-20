@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Blog;
 
-public record CreatePostCommand(CreatePostRequest Payload) : IRequest<Guid>;
+public record CreatePostCommand(CreateOrEditPostRequest Payload) : IRequest<Guid>;
 public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Guid>
 {
     private readonly IRepository<Post> _postRepo;
@@ -33,9 +33,10 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Guid>
             IsOriginal = request.Payload.IsOriginal,
             OriginLink = request.Payload.OriginLink,
             HeroImageUrl = request.Payload.HeroImageUrl,
-            Category=request.Payload.Categorys,
-            Tags=request.Payload.Tags
+
         };
+        post.Tags = request.Payload.Tags;
+        post.PostCategory = request.Payload.Categorys;
         await _postRepo.AddAsync(post);
         return post.Id;
     }

@@ -1,10 +1,9 @@
-﻿using Application.Presistence;
-using Microsoft.EntityFrameworkCore.Query;
+﻿using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Repository;
+namespace Application.Presistence;
 
-public  class BaseSpecification<T> : ISpecification<T>
+public abstract class BaseSpecification<T> : ISpecification<T>
 {
     protected BaseSpecification()
     {
@@ -12,7 +11,7 @@ public  class BaseSpecification<T> : ISpecification<T>
 
     protected BaseSpecification(Expression<Func<T, bool>> criteria)
     {
-        Criteria = criteria;
+           Criteria = criteria;
     }
 
     public Expression<Func<T, bool>> Criteria { get; private set; }
@@ -57,7 +56,6 @@ public  class BaseSpecification<T> : ISpecification<T>
         OrderByDescending = orderByDescendingExpression;
     }
 }
-
 // https://stackoverflow.com/questions/457316/combining-two-expressions-expressionfunct-bool
 public static class ExpressionExtentions
 {

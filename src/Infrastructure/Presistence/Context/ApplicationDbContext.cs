@@ -1,10 +1,11 @@
 ﻿using Domain.Blog;
+using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Infrastructure.Presistence.Context;
 
-public class ApplicationDbContext : BaseDbContext
+public class ApplicationDbContext :BaseDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {

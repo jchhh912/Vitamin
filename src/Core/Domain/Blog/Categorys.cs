@@ -1,10 +1,14 @@
 ﻿
 
+using System.Text.Json.Serialization;
+
 namespace Domain.Blog;
 
 public class Categorys
 {
+    [JsonIgnore]
     public int CategoryId { get; set; }
+    [JsonIgnore]
     public Guid PostId { get; set; }
     /// <summary>
     /// 显示名称

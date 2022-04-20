@@ -56,8 +56,7 @@ internal static class ServiceCollectionExtensions
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         // Add Repositories
-        services.AddScoped(typeof(IRepository<>), typeof(ApplicationDbRepository<>));
-        services.AddScoped(typeof(ISpecification<>), typeof(BaseSpecification<>));
+        services.AddScoped(typeof(IRepository<>), typeof(SqlServerDbContextRepository<>));
         return services;
     }
 }

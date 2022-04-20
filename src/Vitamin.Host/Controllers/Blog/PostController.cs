@@ -21,4 +21,10 @@ public class PostController : BaseApiController
     {
         return await Mediator.Send(request);
     }
+    [HttpPut]
+    [AllowAnonymous]
+    public async Task<Guid> UpdateAsync(UpdatePostCommand request)
+    {
+        return await Mediator.Send(request);
+    }
 }

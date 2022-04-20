@@ -10,22 +10,25 @@ public class ApplicationDbRepository<T> : IRepository<T> where T : class
     private readonly ApplicationDbContext _dbContext;
     
     public ApplicationDbRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
-    public Task<T> GetAsync(Expression<Func<T, bool>> condition)
+    public async Task<T> GetAsync(Expression<Func<T, bool>> condition)
     {
-        return _dbContext.Set<T>().FirstOrDefaultAsync(condition);
+        return await _dbContext.Set<T>().FirstOrDefaultAsync(condition);
     }
 
-    public virtual ValueTask<T> GetAsync(object key)
+    public virtual async ValueTask<T> GetAsync(object key)
     {
-        return _dbContext.Set<T>().FindAsync(key);
+        return await _dbContext.Set<T>().FindAsync(key);
     }
-
+    public async Task<T> GetAsync(ISpecification<T> spec)
+    {
+        return await ApplySpecification(spec).AsNoTracking().FirstAsync();
+    }
     public async Task<IReadOnlyList<T>> GetAsync()
     {
         return await _dbContext.Set<T>().AsNoTracking().ToListAsync();
     }
 
-    public async Task<IReadOnlyList<T>> GetAsync(ISpecification<T> spec)
+    public async Task<IReadOnlyList<T>> GetListAsync(ISpecification<T> spec)
     {
         return await ApplySpecification(spec).AsNoTracking().ToListAsync();
     }
