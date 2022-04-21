@@ -1,22 +1,21 @@
-﻿
-using Application.Blog.Spc;
+﻿using Application.Blog.Spc;
 using Application.Common.Exceptions;
 using Application.Presistence;
 using Domain.Blog;
 using MediatR;
 
-namespace Application.Blog;
+namespace Application.Blog.Admin;
 
-public record DeletePostCommand(Guid Id, bool SoftDelete=false):IRequest<Guid>;
+public record DeletePostCommand(Guid Id, bool SoftDelete = false) : IRequest<Guid>;
 
 public class DeletePostRequestHandler : IRequestHandler<DeletePostCommand, Guid>
 {
     private readonly IRepository<Post> _postRepo;
-    public DeletePostRequestHandler(IRepository<Post> postRepo)=>_postRepo=postRepo;
+    public DeletePostRequestHandler(IRepository<Post> postRepo) => _postRepo = postRepo;
     public async Task<Guid> Handle(DeletePostCommand request, CancellationToken cancellationToken)
     {
-        var post = await _postRepo.GetAsync(new PostSpec(request.Id));;
-        if (post == null) throw new InvalidOperationException($"Post {request.Id} is not found.") ;
+        var post = await _postRepo.GetAsync(new PostSpec(request.Id)); ;
+        if (post == null) throw new InvalidOperationException($"Post {request.Id} is not found.");
         if (request.SoftDelete)
         {
             post.IsDeleted = true;

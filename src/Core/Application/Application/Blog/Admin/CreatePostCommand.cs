@@ -3,7 +3,7 @@ using Application.Presistence;
 using Domain.Blog;
 using MediatR;
 
-namespace Application.Blog;
+namespace Application.Blog.Admin;
 
 public record CreatePostCommand(CreateOrEditPostRequest Payload) : IRequest<Guid>;
 public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Guid>

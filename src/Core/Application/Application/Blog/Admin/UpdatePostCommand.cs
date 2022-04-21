@@ -4,15 +4,15 @@ using Application.Presistence;
 using Domain.Blog;
 using MediatR;
 
-namespace Application.Blog
+namespace Application.Blog.Admin
 {
-    public record UpdatePostCommand(Guid Id,CreateOrEditPostRequest Payload) : IRequest<Guid>;
+    public record UpdatePostCommand(Guid Id, CreateOrEditPostRequest Payload) : IRequest<Guid>;
     public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, Guid>
     {
         private readonly IRepository<Post> _postRepo;
         private readonly IRepository<Tags> _tagRepo;
         private readonly IRepository<Categorys> _catRepo;
-        public UpdatePostCommandHandler(IRepository<Post> postRepo, IRepository<Tags> tagRepo, IRepository<Categorys> catRepo) 
+        public UpdatePostCommandHandler(IRepository<Post> postRepo, IRepository<Tags> tagRepo, IRepository<Categorys> catRepo)
         {
             _postRepo = postRepo;
             _tagRepo = tagRepo;
@@ -27,18 +27,18 @@ namespace Application.Blog
                 throw new InvalidOperationException($"Post {guid} is not found.");
             post.CommentEnabled = postEditModel.EnableComment;
             post.PostContent = postEditModel.EditorContent;
-            if (request.Payload.IsPublished&&!post.IsPublished)
+            if (request.Payload.IsPublished && !post.IsPublished)
             {
                 post.IsPublished = true;
                 post.PubDateUtc = DateTime.UtcNow;
             }
             post.Author = postEditModel.Author.Trim();
-            post.Slug= postEditModel.Slug.Trim();
-            post.Title= postEditModel.Title.Trim();
+            post.Slug = postEditModel.Slug.Trim();
+            post.Title = postEditModel.Title.Trim();
             post.LastModifiedUtc = DateTime.UtcNow;
-            post.IsOriginal= postEditModel.IsOriginal;
-            post.OriginLink= postEditModel.OriginLink.Trim();
-            post.HeroImageUrl= postEditModel.HeroImageUrl.Trim();
+            post.IsOriginal = postEditModel.IsOriginal;
+            post.OriginLink = postEditModel.OriginLink.Trim();
+            post.HeroImageUrl = postEditModel.HeroImageUrl.Trim();
             //先删除不存在的
             foreach (var item in post.Tags.Where(t => !postEditModel.Tags.Any(p => p.DisplayName == t.DisplayName)))
             {

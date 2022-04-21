@@ -7,11 +7,6 @@ namespace Domain.Blog;
 
 public class Tags
 {
-    public Tags(Guid postId, string displayName)
-    {
-        DisplayName = displayName;
-        PostId = postId;
-    }
     [JsonIgnore]
     public int TagId { get; set; }
     [JsonIgnore]

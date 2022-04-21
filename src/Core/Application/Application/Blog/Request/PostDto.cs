@@ -1,7 +1,10 @@
 ﻿
-namespace Domain.Blog;
+using Domain.Blog;
+using System.Linq.Expressions;
 
-public class Post
+namespace Application.Blog.Request;
+
+public class PostDto
 {
     public Guid Id { get; set; }
     /// <summary>
@@ -21,37 +24,13 @@ public class Post
     /// </summary>
     public string PostContent { get; set; }
     /// <summary>
-    /// 评论开关
-    /// </summary>
-    public bool CommentEnabled { get; set; }
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public DateTime CreateTimeUtc { get; set; }
-    /// <summary>
-    /// 发布时间
-    /// </summary>
-    public DateTime PubDateUtc { get; set; }
-    /// <summary>
     /// 最后修改时间
     /// </summary>
-    public DateTime LastModifiedUtc { get; set; }
-    /// <summary>
-    /// 是否公开
-    /// </summary>
-    public bool IsPublished { get; set; }
-    /// <summary>
-    /// 是否删除
-    /// </summary>
-    public bool IsDeleted { get; set; }
+    public DateTime PubDateUtc { get; set; }
     /// <summary>
     /// 是否原创
     /// </summary>
     public bool IsOriginal { get; set; }
-    /// <summary>
-    /// 原创链接
-    /// </summary>
-    public string? OriginLink { get; set; }
     /// <summary>
     /// 文章封面图片
     /// </summary>
@@ -65,5 +44,17 @@ public class Post
     /// </summary>
     public virtual ICollection<Categorys> PostCategory { get; set; }
 
+    public static readonly Expression<Func<Post, PostDto>> EntitySelector = p => new()
+    {
+        Id = p.Id,
+        Title = p.Title,
+        Slug = p.Slug,
+        Author = p.Author,
+        PostContent = p.PostContent,
+        PubDateUtc = p.PubDateUtc,
+        IsOriginal = p.IsOriginal,
+        HeroImageUrl = p.HeroImageUrl,
+        Tags=p.Tags,
+        PostCategory = p.PostCategory
+    };
 }
-
