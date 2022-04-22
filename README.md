@@ -9,8 +9,8 @@
 - [x] Domain Driven Design
 - [x] Supports  Database
    - [x] MSSQL
-   - [ ]MySQL
-   - [ ]Oracle
+   - [ ] MySQL
+   - [ ] Oracle
    - [ ] PostgreSQL
 - [x] Uses Entity Framework Core as DB Abstraction
 - [x] Flexible Repository Pattern
