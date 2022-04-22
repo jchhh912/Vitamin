@@ -16,7 +16,6 @@ public class PostController : BaseApiController
     [HttpGet]
     public async Task<Post> GetPostByIdQuery([FromQuery]GetPostByIdQueryCommand request)
     {
-
         return await Mediator.Send(request);
     }
     [HttpGet("List/Published")]

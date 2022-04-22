@@ -15,7 +15,7 @@ public class Categorys
     /// </summary>
     public string DisplayName { get; set; }
     /// <summary>
-    /// 备注
+    /// 备注/别名
     /// </summary>
     public string Note { get; set; }
 

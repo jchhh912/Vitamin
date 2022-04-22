@@ -48,7 +48,7 @@ public interface IRepository<T> where T : class
 
     Task<IReadOnlyList<TResult>> SelectAsync<TGroup, TResult>(
         Expression<Func<T, TGroup>> groupExpression,
-        Expression<Func<IGrouping<TGroup, T>, TResult>> selector,
+       Expression<Func<IGrouping<TGroup, T>, TResult>> selector,
         ISpecification<T>? spec = null);
 
     Task<T> AddAsync(T entity);
