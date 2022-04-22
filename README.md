@@ -9,8 +9,8 @@
 - [x] Domain Driven Design
 - [x] Supports  Database
    - [x] MSSQL
-   - [ ]MySQL
-   - [ ]Oracle
+   - [ ] MySQL
+   - [ ] Oracle
    - [ ] PostgreSQL
 - [x] Uses Entity Framework Core as DB Abstraction
 - [x] Flexible Repository Pattern
@@ -24,5 +24,9 @@
 - [x] Advanced User & Role Based Permission Management
 - [ ] JSON Based Localization with Caching
 - [ ] Test Projects
-- [x] JWT & Azure AD Authentication
+- [x] JWT & Authentication
 - [x] MediatR - CQRS
+
+## License
+
+This project is licensed with the [MIT license](LICENSE).
