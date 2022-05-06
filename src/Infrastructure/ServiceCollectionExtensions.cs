@@ -1,6 +1,7 @@
 ﻿using Application.Blog;
 using Infrastructure.Auth;
 using Infrastructure.Common;
+using Infrastructure.Cors;
 using Infrastructure.Middleware;
 using Infrastructure.Presistence;
 using Infrastructure.Presistence.Database.Initializer;
@@ -25,13 +26,14 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         return services
-                  .AddSwaggerGen()
-                  .AddAuth(config)
-                  .AddExceptionMiddleware()
-                  .AddHealthCheck()
-                  .AddMediatR(Assembly.GetExecutingAssembly())
-                  .AddPersistence(config)
-                  .AddServices();
+            .AddCorsPolicy()
+            .AddSwaggerGen()
+            .AddAuth(config)
+            .AddExceptionMiddleware()
+            .AddHealthCheck()
+            .AddMediatR(Assembly.GetExecutingAssembly())
+            .AddPersistence(config)
+            .AddServices();
     }
     /// <summary>
     /// 注册中间件服务
@@ -39,6 +41,7 @@ public static class ServiceCollectionExtensions
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder)
     {
         return builder
+                    .UseCorsPolicy()
                     .UseSwagger()
                     .UseSwaggerUI(c =>
                     {
