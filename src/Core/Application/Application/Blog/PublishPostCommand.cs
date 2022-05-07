@@ -16,7 +16,7 @@ namespace Application.Blog
         public async Task<IReadOnlyList<PostDto>> Handle(PublishPostCommand request, CancellationToken cancellationToken)
         {
             var list = await _postRepo.SelectAsync(new PostSpec(request.Status),PostDto.EntitySelector);
-            return list.Adapt<IReadOnlyList<PostDto>>();
+            return list;
         }
     }
 }

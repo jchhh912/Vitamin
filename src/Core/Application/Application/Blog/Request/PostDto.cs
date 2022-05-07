@@ -38,11 +38,12 @@ public class PostDto
     /// <summary>
     /// 标签列表
     /// </summary>
-    public virtual ICollection<Tags> Tags { get; set; }
+    public ICollection<Tags> Tags { get; set; }
     /// <summary>
     /// 分类
     /// </summary>
-    public virtual ICollection<Categorys> PostCategory { get; set; }
+    public ICollection<Categorys> PostCategory { get; set; }
+
 
     public static readonly Expression<Func<Post, PostDto>> EntitySelector = p => new()
     {
@@ -54,7 +55,7 @@ public class PostDto
         PubDateUtc = p.PubDateUtc,
         IsOriginal = p.IsOriginal,
         HeroImageUrl = p.HeroImageUrl,
-        Tags=p.Tags,
+        Tags = p.Tags,
         PostCategory = p.PostCategory
     };
 }

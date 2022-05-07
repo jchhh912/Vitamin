@@ -29,16 +29,19 @@ public class PostController : BaseApiController
         return await Mediator.Send(new PublishPostCommand(Domain.Blog.PostStatus.Deleted));
     }
     [HttpPost]
+    [Authorize]
     public async Task<Guid> CreateAsync(CreatePostCommand request) 
     {
         return await Mediator.Send(request);
     }
     [HttpDelete]
+    [Authorize]
     public async Task<Guid> DeleteAsync(DeletePostCommand request)
     {
         return await Mediator.Send(request);
     }
     [HttpPut]
+    [Authorize]
     public async Task<Guid> UpdateAsync(UpdatePostCommand request)
     {
         return await Mediator.Send(request);
