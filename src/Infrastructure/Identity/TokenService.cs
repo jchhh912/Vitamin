@@ -8,6 +8,7 @@ using Infrastructure.Auth.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -53,8 +54,8 @@ public class TokenService:ITokenService
     public async Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest request, string ipAddress)
     {
         var userPrincipal = GetPrincipalFromExpiredToken(request.Token);
-        string? userEmail = userPrincipal.FindFirstValue(ClaimTypes.Email);
-        var user = await _userManager.FindByEmailAsync(userEmail);
+        string? userEmail = userPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userManager.FindByIdAsync(userEmail);
         if (user is null)
         {
             throw new UnauthorizedException("auth.failed");
@@ -100,9 +101,8 @@ public class TokenService:ITokenService
        new List<Claim>
        {
             new(ClaimTypes.NameIdentifier, user.Id),
-            new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Name,user.UserName),
-            new("IpAddress", ipAddress),
+            new(VitaminClaims.Fullname,user.UserName),
+            new(VitaminClaims.IpAddress, ipAddress)
        };
     /// <summary>
     /// 生成刷新令牌
@@ -124,6 +124,7 @@ public class TokenService:ITokenService
     private string GenerateEncryptedToken(SigningCredentials signingCredentials, IEnumerable<Claim> claims)
     {
         var token = new JwtSecurityToken(
+           issuer: _jwtSettings.Issuer,
            claims: claims,
            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationInMinutes),
            signingCredentials: signingCredentials);
@@ -159,11 +160,11 @@ public class TokenService:ITokenService
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)),
-            ValidateIssuer = false,
+            ValidateIssuer = true,
             ValidateAudience = false,
             RoleClaimType = ClaimTypes.Role,
             ClockSkew = TimeSpan.Zero,
-            ValidateLifetime = false
+            ValidateLifetime = true
         };
         var tokenHandler = new JwtSecurityTokenHandler();
         var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);

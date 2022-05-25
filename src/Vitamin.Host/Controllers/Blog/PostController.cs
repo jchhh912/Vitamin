@@ -10,14 +10,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace Vitamin.Host.Controllers.Blog;
 
 
-[AllowAnonymous]
+
+[Authorize]
 public class PostController : BaseApiController
 {
     [HttpGet]
-    public async Task<Post> GetPostByIdQuery([FromQuery]GetPostByIdQueryCommand request)
+    [AllowAnonymous]
+    public async Task<Post> GetPostByIdQuery([FromQuery] GetPostByIdQueryCommand request)
     {
         return await Mediator.Send(request);
     }
+    [AllowAnonymous]
     [HttpGet("List/Published")]
     public async Task<IReadOnlyList<PostDto>> ListPublished()
     {
@@ -29,19 +32,17 @@ public class PostController : BaseApiController
         return await Mediator.Send(new PublishPostCommand(Domain.Blog.PostStatus.Deleted));
     }
     [HttpPost]
-    [Authorize]
-    public async Task<Guid> CreateAsync(CreatePostCommand request) 
+
+    public async Task<Guid> CreateAsync(CreatePostCommand request)
     {
         return await Mediator.Send(request);
     }
     [HttpDelete]
-    [Authorize]
     public async Task<Guid> DeleteAsync(DeletePostCommand request)
     {
         return await Mediator.Send(request);
     }
     [HttpPut]
-    [Authorize]
     public async Task<Guid> UpdateAsync(UpdatePostCommand request)
     {
         return await Mediator.Send(request);

@@ -1,6 +1,8 @@
 {
   "DatabaseSettings": {
     "DBProvider": "mssql",
+    //"ConnectionString": "Data Source=192.168.139.200,1433;Initial Catalog=VitaminDb;User ID=sa;Password=P@ssw0rd123;MultipleActiveResultSets=True"
+
     "ConnectionString": "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=VitaminDb;Integrated Security=True;MultipleActiveResultSets=True"
   }
 }

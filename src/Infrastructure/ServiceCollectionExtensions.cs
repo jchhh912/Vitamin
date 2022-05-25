@@ -3,6 +3,7 @@ using Infrastructure.Auth;
 using Infrastructure.Common;
 using Infrastructure.Cors;
 using Infrastructure.Middleware;
+using Infrastructure.OpenApi;
 using Infrastructure.Presistence;
 using Infrastructure.Presistence.Database.Initializer;
 using MediatR;
@@ -27,7 +28,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddCorsPolicy()
-            .AddSwaggerGen()
+            .AddSwaggers()
             .AddAuth(config)
             .AddExceptionMiddleware()
             .AddHealthCheck()
@@ -42,11 +43,6 @@ public static class ServiceCollectionExtensions
     {
         return builder
                     .UseCorsPolicy()
-                    .UseSwagger()
-                    .UseSwaggerUI(c =>
-                    {
-                        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Vitamin API V1");
-                    })
                     .UseExceptionMiddleware()
                     .UseAuthentication()
                     .UseAuthorization();

@@ -3,7 +3,6 @@ using Infrastructure.Presistence.Context;
 using Infrastructure.Presistence.Database;
 using Infrastructure.Presistence.Database.Initializer;
 using Infrastructure.Presistence.Database.Seeder;
-using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

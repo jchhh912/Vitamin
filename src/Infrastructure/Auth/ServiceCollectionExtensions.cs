@@ -47,7 +47,7 @@ internal static class ServiceCollectionExtensions
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
+                ValidateIssuer = true,
                 ValidateLifetime = true,
                 ValidIssuer = jwtSettings.Issuer,
                 ValidateAudience = false,
@@ -69,7 +69,7 @@ internal static class ServiceCollectionExtensions
                 OnForbidden = _ => throw new ForbiddenException("You are not authorized to access this resource."),
                 OnMessageReceived = context =>
                 {
-                    var accessToken = context.Request.Query["access_token"];
+                    var accessToken = context.Request.Query["Authorization"];
 
                     if (!string.IsNullOrEmpty(accessToken) &&
                         context.HttpContext.Request.Path.StartsWithSegments("/notifications"))
@@ -98,7 +98,7 @@ internal static class ServiceCollectionExtensions
                         option.Password.RequireLowercase = false;
                         option.Password.RequireNonAlphanumeric = false;
                         option.Password.RequireUppercase = false;
-                        option.User.RequireUniqueEmail = false;
+                        option.User.RequireUniqueEmail = true;
                     })
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders().Services;
