@@ -8,10 +8,10 @@ namespace Application.Blog.Admin;
 
 public record DeletePostCommand(Guid Id, bool SoftDelete = false) : IRequest<Guid>;
 
-public class DeletePostRequestHandler : IRequestHandler<DeletePostCommand, Guid>
+public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, Guid>
 {
     private readonly IRepository<Post> _postRepo;
-    public DeletePostRequestHandler(IRepository<Post> postRepo) => _postRepo = postRepo;
+    public DeletePostCommandHandler(IRepository<Post> postRepo) => _postRepo = postRepo;
     public async Task<Guid> Handle(DeletePostCommand request, CancellationToken cancellationToken)
     {
         var post = await _postRepo.GetAsync(new PostSpec(request.Id)); ;
