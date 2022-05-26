@@ -21,15 +21,21 @@ public class PostController : BaseApiController
         return await Mediator.Send(request);
     }
     [AllowAnonymous]
+    [HttpGet("List/All")]
+    public async Task<IReadOnlyList<PostDto>> ListAll()
+    {
+        return await Mediator.Send(new SelectPostCommand(Domain.Blog.PostStatus.Default));
+    }
+    [AllowAnonymous]
     [HttpGet("List/Published")]
     public async Task<IReadOnlyList<PostDto>> ListPublished()
     {
-        return await Mediator.Send(new PublishPostCommand(Domain.Blog.PostStatus.Published));
+        return await Mediator.Send(new SelectPostCommand(Domain.Blog.PostStatus.Published));
     }
     [HttpGet("List/Deleted")]
     public async Task<IReadOnlyList<PostDto>> ListDeleted()
     {
-        return await Mediator.Send(new PublishPostCommand(Domain.Blog.PostStatus.Deleted));
+        return await Mediator.Send(new SelectPostCommand(Domain.Blog.PostStatus.Deleted));
     }
     [HttpPost]
 
