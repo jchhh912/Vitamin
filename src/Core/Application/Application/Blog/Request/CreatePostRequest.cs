@@ -1,5 +1,6 @@
 ﻿
 
+using Application.Common.FileStorage;
 using Domain.Blog;
 using System.ComponentModel.DataAnnotations;
 
@@ -43,7 +44,7 @@ public class CreateOrEditPostRequest
 
     [Display(Name = "Hero Image")]
     [DataType(DataType.Url)]
-    public string HeroImageUrl { get; set; }
+    public FileUploadRequest? HeroImageUrl { get; set; }
     [Display(Name = "Categorys")]
     [MaxLength(128)]
     public List<Categorys> Categorys { get; set; }

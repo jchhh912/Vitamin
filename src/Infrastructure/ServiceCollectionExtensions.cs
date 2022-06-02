@@ -2,6 +2,7 @@
 using Infrastructure.Auth;
 using Infrastructure.Common;
 using Infrastructure.Cors;
+using Infrastructure.FileStorage;
 using Infrastructure.Middleware;
 using Infrastructure.OpenApi;
 using Infrastructure.Presistence;
@@ -42,6 +43,7 @@ public static class ServiceCollectionExtensions
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder)
     {
         return builder
+                    .UseFileStorege()
                     .UseCorsPolicy()
                     .UseExceptionMiddleware()
                     .UseAuthentication()

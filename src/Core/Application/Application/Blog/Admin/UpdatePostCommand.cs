@@ -1,7 +1,9 @@
 ﻿using Application.Blog.Request;
 using Application.Blog.Spc;
+using Application.Common.FileStorage;
 using Application.Presistence;
 using Domain.Blog;
+using Domain.Common;
 using MediatR;
 
 namespace Application.Blog.Admin
@@ -12,11 +14,13 @@ namespace Application.Blog.Admin
         private readonly IRepository<Post> _postRepo;
         private readonly IRepository<Tags> _tagRepo;
         private readonly IRepository<Categorys> _catRepo;
-        public UpdatePostCommandHandler(IRepository<Post> postRepo, IRepository<Tags> tagRepo, IRepository<Categorys> catRepo)
+        private readonly IFileStorageService _file;
+        public UpdatePostCommandHandler(IRepository<Post> postRepo, IRepository<Tags> tagRepo, IRepository<Categorys> catRepo, IFileStorageService file)
         {
             _postRepo = postRepo;
             _tagRepo = tagRepo;
             _catRepo = catRepo;
+            _file = file;
         }
         public async Task<Guid> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
         {
@@ -38,7 +42,10 @@ namespace Application.Blog.Admin
             post.LastModifiedUtc = DateTime.UtcNow;
             post.IsOriginal = postEditModel.IsOriginal;
             post.OriginLink = postEditModel.OriginLink.Trim();
-            post.HeroImageUrl = postEditModel.HeroImageUrl.Trim();
+
+            string? ImagePath = postEditModel.HeroImageUrl is not null
+                ? await _file.UploadAsync<Post>(postEditModel.HeroImageUrl, FileType.Image, cancellationToken):null;
+            post.HeroImageUrl = ImagePath;
             //先删除不存在的
             foreach (var item in post.Tags.Where(t => !postEditModel.Tags.Any(p => p.DisplayName == t.DisplayName)))
             {
