@@ -9,6 +9,10 @@ public static class ServiceCollectionExtensions
 {
     public static IApplicationBuilder UseFileStorege(this IApplicationBuilder app)
     {
+        if (!Directory.Exists($"{Directory.GetCurrentDirectory()}/Files"))
+        {
+            Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/Files");
+        }
         return app.UseStaticFiles(new StaticFileOptions()
         {
             FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),

@@ -11,4 +11,4 @@ COPY .  /app
 ENTRYPOINT ["dotnet", "Vitamin.Host.dll","--urls","http://*:5000"]
 
 # docker build -t myblog:1.0 -f Dockerfile .
-#docker run -d -p 5050:5000 --network bridge --name blog myblog:1.0
+# docker run -d -it -v wwwroot/app/Files:/Files -p 5050:5000 --network bridge --name blog myblog:1.0 --restart always 
